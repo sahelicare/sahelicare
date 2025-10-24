@@ -1,0 +1,529 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Saheli Care — Comfort & Confidence</title>
+  <meta name="description" content="Saheli Care sanitary pads — comfortable, safe, and eco-friendly. Shop discreetly online.">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --accent:#ff6b9f;
+      --accent-700:#ff4f88;
+      --dark:#0f1724;
+      --muted:#6b7280;
+      --card:#fff;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;background:#f7f9fb;color:var(--dark);line-height:1.45;-webkit-font-smoothing:antialiased}
+    .container{max-width:1100px;margin:0 auto;padding:0 18px}
+
+    /* Ultra-slim announcement */
+    .announce-wrap{background:linear-gradient(90deg,var(--accent),var(--accent-700));color:white;padding:6px 0;overflow:hidden}
+    .announce{display:flex;align-items:center;gap:12px}
+    .track{display:inline-block;white-space:nowrap;padding-left:100%;animation:marquee 14s linear infinite;font-weight:600;font-size:13px}
+    .track span{margin-right:48px}
+    .track:hover{animation-play-state:paused}
+    @keyframes marquee{from{transform:translateX(0%);}to{transform:translateX(-100%);}}
+
+
+    /* Navbar */
+    header{background:linear-gradient(90deg,var(--accent),var(--accent-700));position:sticky;top:0;z-index:70;padding:8px 0;color:white}
+    .nav{display:flex;align-items:center;justify-content:space-between}
+    .brand{display:flex;align-items:center;gap:10px}
+    .brand img{height:38px;width:38px;border-radius:10px;object-fit:cover;border:2px solid rgba(255,255,255,0.12)}
+    .brand h1{margin:0;font-size:17px;font-weight:700;color:white}
+    nav ul{display:flex;gap:14px;align-items:center;margin:0;padding:0;list-style:none}
+    nav a{color:white;text-decoration:none;font-weight:600;padding:6px 8px;border-radius:8px}
+    .cta{background:rgba(255,255,255,0.12);color:white;padding:8px 12px;border-radius:10px;font-weight:700;border:1px solid rgba(255,255,255,0.08)}
+
+    /* Hero */
+    .hero{display:grid;grid-template-columns:1fr 420px;gap:18px;align-items:center;padding:16px 0}
+    .banner-card img{width:100%;height:280px;object-fit:contain;border-radius:10px}
+
+    /* Products */
+    .products-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:12px 0}
+    .card{background:var(--card);padding:10px;border-radius:10px;box-shadow:0 8px 20px rgba(12,18,24,0.06);display:flex;flex-direction:column}
+    .image-frame{height:140px;background:linear-gradient(180deg,#fff,#fff);border-radius:8px;display:flex;align-items:center;justify-content:center;padding:8px}
+    .image-frame img{max-height:100%;max-width:100%;object-fit:contain;border-radius:6px;display:block}
+    .card h3{margin:8px 0 6px;font-size:15px}
+    .price{font-weight:700;margin-bottom:8px}
+    .card .actions{margin-top:auto;display:flex;gap:8px}
+    .btn{flex:1;padding:10px 10px;border-radius:10px;border:0;font-weight:600;cursor:pointer}
+    .btn-outline{background:transparent;border:1px solid #eef2f6}
+    .wa-btn{background:linear-gradient(90deg,var(--accent),var(--accent-700));color:white;border:0;padding:10px 12px;border-radius:10px;font-weight:700}
+
+    /* Shine effect (requested) */
+    .btn, .wa-btn, .cta {
+      position:relative; overflow:hidden;
+    }
+    .btn::after, .wa-btn::after, .cta::after {
+      content:"";
+      position:absolute; top:0; left:-120%;
+      width:40%; height:100%;
+      background: linear-gradient(120deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.35) 50%, rgba(255,255,255,0.06) 100%);
+      transform:skewX(-20deg);
+      transition: left 0.9s cubic-bezier(.2,.8,.2,1);
+      pointer-events:none;
+    }
+    .btn:hover::after, .wa-btn:hover::after, .cta:hover::after { left:120%; }
+
+    /* Diwali card */
+    .diwali-card{display:flex;gap:12px;align-items:center;background:white;padding:12px;border-radius:12px;box-shadow:0 10px 30px rgba(12,18,24,0.06)}
+    .diwali-image{flex:0 0 100px;height:100px;border-radius:10px;background:white;display:flex;align-items:center;justify-content:center;padding:8px}
+    .diwali-image img{max-width:100%;max-height:100%;object-fit:contain;border-radius:8px}
+
+    /* Footer */
+    footer{margin-top:18px;padding:12px 0;color:var(--muted)}
+
+    /* Modal (order form) */
+    .modal { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; z-index: 2000; background: rgba(7,10,14,0.45); padding: 20px; }
+    .modal.open { display: flex; }
+    .modal-card { width: 100%; max-width: 520px; background: #fff; border-radius: 12px; padding: 16px; box-shadow: 0 20px 50px rgba(12,18,24,0.3); }
+    .modal-card h3 { margin: 0 0 8px; font-size: 18px; }
+    .form-row { display:flex; gap:8px; margin-bottom:10px; }
+    .form-row .field { flex:1; display:flex; flex-direction:column; }
+    .field label { font-size:13px; margin-bottom:6px; color:var(--muted); }
+    .field input, .field textarea, .field select {
+      padding:10px; border-radius:8px; border:1px solid #e8eef5; font-size:14px; width:100%;
+    }
+    .modal-actions { display:flex; gap:8px; margin-top:10px; }
+    .modal-close { position:absolute; top:10px; right:12px; background:transparent;border:0;font-size:20px; cursor:pointer; color:#334155; }
+
+    /* Responsive */
+    @media(max-width:900px){
+      .hero{grid-template-columns:1fr}
+      .products-grid{grid-template-columns:repeat(2,1fr)}
+      .banner-card img{height:220px}
+    }
+    @media(max-width:640px){
+      nav ul{display:none}
+      .products-grid{grid-template-columns:1fr;gap:10px}
+      .card .actions{flex-direction:column}
+      .btn, .wa-btn, .btn-outline{width:100%}
+      .diwali-card{flex-direction:column;align-items:flex-start}
+      .image-frame{height:160px}
+      .modal-card{padding:12px}
+    }
+
+    a:focus, button:focus{outline:3px solid rgba(255,107,159,0.18);outline-offset:2px}
+     {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    /* Banner container */
+    .banner-slider {
+      position: relative;
+      width: 100%;
+      max-height: 500px;
+      overflow: hidden;
+    }
+
+    /* Each image */
+    .banner-slider img {
+      width: 100%;
+      height: auto;
+      display: none;
+      object-fit: cover;
+    }
+
+    /* Show first image by default */
+    .banner-slider img.active {
+      display: block;
+      animation: fade 1.2s ease-in-out;
+    }
+
+    /* Smooth fade effect */
+    @keyframes fade {
+      from { opacity: 0.4; }
+      to { opacity: 1; }
+    }
+
+    /* Optional caption overlay */
+    .banner-caption {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      background: rgba(0, 0, 0, 0.5);
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+    /* Responsive for smaller screens */
+    @media (max-width: 768px) {
+      .banner-caption {
+        font-size: 0.9rem;
+        padding: 6px 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+ 
+
+  <!-- Header -->
+  <header>
+    <div class="container nav">
+      <div class="brand">
+        <img src="232.png" alt="Saheli Care logo">
+        <h1>Saheli Care</h1>
+      </div>
+      <nav>
+        <button class="hamburger" id="menuBtn">☰</button>
+        <ul id="navList">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#products">Products</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <a class="cta" href="#contact">Order Now</a>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main class="container">
+    <section class="hero" id="home">
+      <div>
+        <h2>Saheli Care — Soft, secure sanitary pads for every day</h2>
+        <p style="color:var(--muted)">Designed for comfort and confidence. Thin, absorbent, and breathable — stay comfortable through the day and night.</p>
+        <a class="wa-btn" href="#products" style="display:inline-block;margin-top:8px">Shop Pads</a>
+      </div>
+      <div class="banner-slider">
+    <img src="banner.png" alt="Saheli Care Banner 1" class="active">
+    <img src="new postrer.png" alt="Saheli Care Banner 2">
+   
+  </div>>
+    </section>
+
+    <section id="products">
+      <h2 style="margin-top:8px">Popular Products</h2>
+      <div class="products-grid" role="list">
+        <article class="card" role="listitem">
+          <div class="image-frame"><img src="product 1.png" alt="Day Pads"></div>
+          <h3>Day Pads — Regular</h3>
+          <div class="price">₹149 / pack</div>
+          <p style="color:var(--muted)">Comfort fit for daily use, thin and absorbent.</p>
+          <div class="actions">
+            <button class="btn btn-outline" onclick="openModal('Day Pads — Regular','₹149','product 1.png')">Quick view</button>
+            <button class="wa-btn order-btn shine" data-product="Day Pads — Regular" data-price="₹149">Order via WhatsApp</button>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="image-frame"><img src="10 Pack Combo.png" alt="Night Pads"></div>
+          <h3>Night Pads — Extra Length</h3>
+          <div class="price">₹199 / pack</div>
+          <p style="color:var(--muted)">Overnight protection with full coverage.</p>
+          <div class="actions">
+            <button class="btn btn-outline" onclick="openModal('Night Pads — Extra Length','₹199','10 Pack Combo.png')">Quick view</button>
+            <button class="wa-btn order-btn shine" data-product="Night Pads — Extra Length" data-price="₹199">Order via WhatsApp</button>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="image-frame"><img src="jumbo.png" alt="Organic Pads"></div>
+          <h3>Saheli</h3>
+          <div class="price">₹219 / pack</div>
+          <p style="color:var(--muted)">Made with organic cotton for sensitive skin.</p>
+          <div class="actions">
+            <button class="btn btn-outline" onclick="openModal('Organic Pads — Sensitive Skin','₹219','jumbo.png')">Quick view</button>
+            <button class="wa-btn order-btn shine" data-product="Organic Pads — Sensitive Skin" data-price="₹219">Order via WhatsApp</button>
+          </div>
+        </article>
+      </div>
+
+      <!-- Diwali bundle -->
+      <div style="margin:12px 0;">
+        <div class="diwali-card">
+          <div class="diwali-image"><img src="offer.png" alt="Diwali Offer"></div>
+          <div>
+            <h3 style="margin:0">Diwali Special — 10 pack</h3>
+            <div style="color:var(--accent);font-weight:800">Only ₹250</div>
+          </div>
+          <div style="margin-left:auto">
+            <button class="wa-btn order-btn shine" id="diwaliBtn" data-product="Diwali Special - 10 pack" data-price="₹250">Order Now</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About / Contact sections unchanged -->
+    <section id="about" style="margin-top:8px">
+      <h2>About Saheli Care</h2>
+      <p style="color:var(--muted)">Saheli Care exists to make menstrual care comfortable, dignified, and accessible. We design products that put your comfort first — backed by safety and quality testing.</p>
+    </section>
+
+    <section id="contact" style="margin-top:12px">
+      <h2>Contact & Order</h2>
+      <div style="display:flex;gap:12px;flex-wrap:wrap">
+        <form id="contactForm" style="flex:1;min-width:220px;background:white;padding:12px;border-radius:12px;box-shadow:0 8px 24px rgba(11,16,23,0.04)">
+          <label for="name">Name</label><br>
+          <input id="name" name="name" required style="width:100%;padding:10px;margin:8px 0;border-radius:8px;border:1px solid #eef2f6;font-size:14px">
+          <label for="phone">Phone / WhatsApp</label><br>
+          <input id="phone" name="phone" required style="width:100%;padding:10px;margin:8px 0;border-radius:8px;border:1px solid #eef2f6;font-size:14px">
+          <label for="message">Message / Order details</label><br>
+          <textarea id="message" name="message" rows="4" style="width:100%;padding:10px;margin:8px 0;border-radius:8px;border:1px solid #eef2f6;font-size:14px"></textarea>
+          <button type="submit" class="btn" style="background:var(--accent);color:white;width:100%;padding:12px;border-radius:10px;font-size:15px">Send Order</button>
+        </form>
+
+        <div style="flex:1;min-width:220px">
+          <div style="background:white;padding:12px;border-radius:12px;box-shadow:0 8px 24px rgba(11,16,23,0.04)">
+            <h4>Order by WhatsApp</h4>
+            <p style="color:var(--muted)">Message us with your pack choices and delivery details. We will confirm and arrange payment.</p>
+            <p><strong>Phone:</strong> +91 87504 06022</p>
+            <p><strong>Email:</strong> hello@sahelicare.example</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="container">
+    <div style="padding:12px 0;color:var(--muted)">
+      <strong>Saheli Care</strong> • © All rights reserved
+    </div>
+  </footer>
+
+  <!-- ORDER MODAL (opens when clicking Order via WhatsApp) -->
+  <div id="orderModal" class="modal" aria-hidden="true">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="orderTitle">
+      <button class="modal-close" id="orderClose" aria-label="Close">✕</button>
+      <h3 id="orderTitle">Place your order</h3>
+      <div id="selectedProduct" style="color:var(--muted);font-size:14px;margin-bottom:8px"></div>
+
+      <form id="orderForm">
+        <div class="form-row">
+          <div class="field">
+            <label for="custName">Name</label>
+            <input id="custName" name="custName" type="text" required placeholder="Full name" />
+          </div>
+          <div class="field">
+            <label for="custPhone">Phone</label>
+            <input id="custPhone" name="custPhone" type="tel" required placeholder="e.g. 9876543210" />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="field" style="flex:1">
+            <label for="custAddress">Address</label>
+            <textarea id="custAddress" name="custAddress" rows="2" placeholder="Street / area / landmark" required></textarea>
+          </div>
+          <div class="field" style="width:120px">
+            <label for="custPincode">Pincode</label>
+            <input id="custPincode" name="custPincode" type="text" inputmode="numeric" required placeholder="PIN" />
+          </div>
+        </div>
+
+        <div class="form-row" style="align-items:center">
+          <div class="field" style="width:120px">
+            <label for="custQty">Quantity</label>
+            <select id="custQty" name="custQty">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+            </select>
+          </div>
+          <div style="flex:1"></div>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn btn-outline" id="orderCancel">Cancel</button>
+          <button type="submit" class="wa-btn">Submit & Send WhatsApp</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Quick-view modal (kept in case you use Quick view) -->
+  <div id="quickModal" class="modal" aria-hidden="true">
+    <div class="modal-card">
+      <button class="modal-close" id="quickClose" aria-label="Close">✕</button>
+      <div id="quickContent"></div>
+    </div>
+  </div>
+
+  <script>
+    (function(){
+      const whatsappNumber = '918750406022'; // +91 87504 06022
+
+      // --- ORDER MODAL LOGIC ---
+      const orderModal = document.getElementById('orderModal');
+      const orderClose = document.getElementById('orderClose');
+      const orderCancel = document.getElementById('orderCancel');
+      const orderForm = document.getElementById('orderForm');
+      const selectedProductEl = document.getElementById('selectedProduct');
+
+      let currentProduct = { name: '', price: '' };
+
+      // open order modal with product info
+      function openOrderModal(productName, price){
+        currentProduct = { name: productName, price: price || '' };
+        selectedProductEl.textContent = productName + (price ? (' — ' + price) : '');
+        orderModal.classList.add('open');
+        orderModal.setAttribute('aria-hidden','false');
+        // focus first input
+        setTimeout(()=> document.getElementById('custName').focus(), 120);
+      }
+
+      function closeOrderModal(){
+        orderModal.classList.remove('open');
+        orderModal.setAttribute('aria-hidden','true');
+        orderForm.reset();
+      }
+
+      // attach order buttons
+      document.querySelectorAll('.order-btn').forEach(btn=>{
+        btn.addEventListener('click', (e)=>{
+          e.preventDefault();
+          const product = btn.getAttribute('data-product') || 'Product';
+          const price = btn.getAttribute('data-price') || '';
+          openOrderModal(product, price);
+        });
+      });
+
+      // diwali button
+      const diwaliBtn = document.getElementById('diwaliBtn');
+      if(diwaliBtn){
+        diwaliBtn.addEventListener('click', (e)=>{
+          e.preventDefault();
+          const p = diwaliBtn.getAttribute('data-product') || 'Diwali Special';
+          const pr = diwaliBtn.getAttribute('data-price') || '₹250';
+          openOrderModal(p, pr);
+        });
+      }
+
+      // cancel/close handlers
+      orderClose.addEventListener('click', closeOrderModal);
+      orderCancel.addEventListener('click', closeOrderModal);
+
+      // close modal on overlay click
+      orderModal.addEventListener('click', (e)=>{
+        if(e.target === orderModal) closeOrderModal();
+      });
+
+      // ESC to close
+      document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeOrderModal(); });
+
+      // form submit -> open whatsapp with formatted message
+      orderForm.addEventListener('submit', (e)=>{
+        e.preventDefault();
+
+        const name = document.getElementById('custName').value.trim();
+        const phone = document.getElementById('custPhone').value.trim();
+        const address = document.getElementById('custAddress').value.trim();
+        const pincode = document.getElementById('custPincode').value.trim();
+        const qty = document.getElementById('custQty').value;
+
+        // basic validation
+        if(!name || !phone || !address || !pincode){
+          alert('Please fill all required fields (Name, Phone, Address, Pincode).');
+          return;
+        }
+
+        // build message
+        const lines = [];
+        lines.push('*Saheli Care — New Order*');
+        lines.push('');
+        lines.push('🛒 Product: ' + currentProduct.name);
+        if(currentProduct.price) lines.push('💲 Price: ' + currentProduct.price);
+        lines.push('📦 Quantity: ' + qty);
+        lines.push('');
+        lines.push('👤 Name: ' + name);
+        lines.push('📞 Phone: ' + phone);
+        lines.push('🏠 Address: ' + address);
+        lines.push('📮 Pincode: ' + pincode);
+        lines.push('');
+        lines.push('Kindly confirm availability and payment method.');
+
+        const text = encodeURIComponent(lines.join('\n'));
+        const waUrl = `https://wa.me/${whatsappNumber}?text=${text}`;
+
+        // open WhatsApp (new tab)
+        window.open(waUrl, '_blank');
+
+        // reset & close modal
+        closeOrderModal();
+      });
+
+      // --- Quick-view modal (keep previous behavior) ---
+      const quickModal = document.getElementById('quickModal');
+      const quickClose = document.getElementById('quickClose');
+      const quickContent = document.getElementById('quickContent');
+
+      window.openModal = function openModal(title, price, img){
+        quickContent.innerHTML = `
+          <div style="display:grid;gap:12px;grid-template-columns:120px 1fr;align-items:center">
+            <img src="${img}" alt="${title}" style="width:110px;height:110px;object-fit:contain;border-radius:10px">
+            <div>
+              <h3 style="margin:0">${title}</h3>
+              <div style="font-weight:700;margin:8px 0">${price}</div>
+              <p style="color:var(--muted)">Select quantity, add to cart or message us on WhatsApp to place an order.</p>
+            </div>
+          </div>
+        `;
+        quickModal.classList.add('open');
+        quickModal.setAttribute('aria-hidden','false');
+      };
+      window.closeModal = function closeModal(){ quickModal.classList.remove('open'); quickModal.setAttribute('aria-hidden','true'); quickContent.innerHTML=''; };
+
+      quickClose.addEventListener('click', ()=>{ closeModal(); });
+      quickModal.addEventListener('click', (e)=>{ if(e.target === quickModal) closeModal(); });
+      document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') { closeModal(); } });
+
+      // mobile nav toggle (unchanged)
+      const menuBtn = document.getElementById('menuBtn');
+      const navList = document.getElementById('navList');
+      menuBtn && menuBtn.addEventListener('click', ()=>{
+        const shown = navList.style.display === 'flex';
+        navList.style.display = shown ? 'none' : 'flex';
+        navList.style.flexDirection = 'column';
+      });
+
+      // contact form (existing behaviour) kept as-is (opens whatsapp)
+      const contactForm = document.getElementById('contactForm');
+      if(contactForm){
+        contactForm.addEventListener('submit', (e)=>{
+          e.preventDefault();
+          const nm = document.getElementById('name').value.trim();
+          const ph = document.getElementById('phone').value.trim();
+          const msg = document.getElementById('message').value.trim();
+          if(!nm || !ph){ alert('Please enter name & phone'); return; }
+          const lines = ['*New Saheli Care Order*', '', '👩 Name: ' + nm, '📞 Phone: ' + ph];
+          if(msg) lines.push('📝 Message: ' + msg);
+          lines.push('', 'Please confirm order details.');
+          window.open('https://wa.me/' + whatsappNumber + '?text=' + encodeURIComponent(lines.join('\n')), '_blank');
+          contactForm.reset();
+        });
+      }
+
+    })();
+  
+    // Simple auto-slide JavaScript
+    let current = 0;
+    const images = document.querySelectorAll(".banner-slider img");
+    const total = images.length;
+
+    function showNextImage() {
+      images[current].classList.remove("active");
+      current = (current + 1) % total;
+      images[current].classList.add("active");
+    }
+
+    // Change image every 4 seconds
+    setInterval(showNextImage, 4000);
+  </script>
+</body>
+</html>
