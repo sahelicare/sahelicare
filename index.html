@@ -20,37 +20,82 @@
     body{margin:0;background:#f7f9fb;color:var(--dark);line-height:1.45;-webkit-font-smoothing:antialiased}
     .container{max-width:1100px;margin:0 auto;padding:0 18px}
 
-    /* Ultra-slim announcement */
-    .announce-wrap{background:linear-gradient(90deg,var(--accent),var(--accent-700));color:white;padding:6px 0;overflow:hidden}
-    .announce{display:flex;align-items:center;gap:12px}
-    .track{display:inline-block;white-space:nowrap;padding-left:100%;animation:marquee 14s linear infinite;font-weight:600;font-size:13px}
-    .track span{margin-right:48px}
-    .track:hover{animation-play-state:paused}
-    @keyframes marquee{from{transform:translateX(0%);}to{transform:translateX(-100%);}}
-
-
     /* Navbar */
     header{background:linear-gradient(90deg,var(--accent),var(--accent-700));position:sticky;top:0;z-index:70;padding:8px 0;color:white}
-    .nav{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .nav{display:flex;align-items:center;justify-content:space-between;gap:12px;position:relative}
     .brand{display:flex;align-items:center;gap:10px}
     .brand img{height:38px;width:38px;border-radius:10px;object-fit:cover;border:2px solid rgba(255,255,255,0.12)}
     .brand h1{margin:0;font-size:17px;font-weight:700;color:white}
-    nav{display:flex;align-items:center;gap:14px}
+    nav{display:flex;align-items:center;gap:14px;position:relative}
     nav ul{display:flex;gap:14px;align-items:center;margin:0;padding:0;list-style:none}
     nav a{color:white;text-decoration:none;font-weight:600;padding:6px 8px;border-radius:8px}
-    /* Removed .cta styling usage since CTA removed from header */
-
-    /* Hamburger button (moved to right) */
     .hamburger {
       background: transparent;
       border: 0;
       color: white;
-      font-size: 20px;
+      font-size: 22px;
       padding: 8px;
       border-radius: 8px;
       cursor: pointer;
     }
     .hamburger:focus { outline:3px solid rgba(255,255,159,0.12); outline-offset:2px }
+
+    /* Right-side mobile panel (hidden on desktop) */
+    @media (max-width: 640px) {
+      nav ul { display: none; } /* hide inline nav on small screens */
+
+      /* overlay to dim background when panel open */
+      .mobile-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(7,10,14,0.35);
+        display: none;
+        z-index: 79;
+      }
+      .mobile-overlay.show { display: block; }
+
+      /* panel */
+      .mobile-panel {
+        position: fixed;
+        top: 0;
+        right: 0;
+        height: 100vh;
+        width: 280px;
+        max-width: 90%;
+        background: #fff;
+        color: var(--dark);
+        box-shadow: -12px 0 30px rgba(12,18,24,0.18);
+        transform: translateX(100%);
+        transition: transform 300ms cubic-bezier(.2,.9,.2,1);
+        z-index: 80;
+        padding: 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .mobile-panel.open { transform: translateX(0); }
+
+      /* close button inside panel */
+      .mobile-panel .close-panel {
+        align-self: flex-end;
+        background: transparent;
+        border: 0;
+        font-size: 20px;
+        cursor: pointer;
+        color: var(--dark);
+      }
+
+      .mobile-panel nav-links { display:block; }
+
+      .mobile-panel ul { list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px; }
+      .mobile-panel a { color:var(--dark); text-decoration:none; padding:10px 8px; border-radius:8px; font-weight:700; display:block; }
+      .mobile-panel a:hover { background: rgba(15,23,36,0.04); }
+
+      /* Keep header elements aligned: brand left, hamburger right */
+      .nav { align-items: center; }
+      .hamburger { order: 2; }
+      .brand { order: 1; }
+    }
 
     /* Hero */
     .hero{display:grid;grid-template-columns:1fr 420px;gap:18px;align-items:center;padding:16px 0}
@@ -68,7 +113,7 @@
     .btn-outline{background:transparent;border:1px solid #eef2f6}
     .wa-btn{background:linear-gradient(90deg,var(--accent),var(--accent-700));color:white;border:0;padding:10px 12px;border-radius:10px;font-weight:700}
 
-    /* Shine effect (requested) */
+    /* Shine effect */
     .btn, .wa-btn {
       position:relative; overflow:hidden;
     }
@@ -105,14 +150,13 @@
     .modal-actions { display:flex; gap:8px; margin-top:10px; }
     .modal-close { position:absolute; top:10px; right:12px; background:transparent;border:0;font-size:20px; cursor:pointer; color:#334155; }
 
-    /* Responsive */
+    /* Responsive general */
     @media(max-width:900px){
       .hero{grid-template-columns:1fr}
       .products-grid{grid-template-columns:repeat(2,1fr)}
       .banner-card img{height:220px}
     }
     @media(max-width:640px){
-      nav ul{display:none}
       .products-grid{grid-template-columns:1fr;gap:10px}
       .card .actions{flex-direction:column}
       .btn, .wa-btn, .btn-outline{width:100%}
@@ -123,11 +167,6 @@
 
     a:focus, button:focus{outline:3px solid rgba(255,107,159,0.18);outline-offset:2px}
 
-    /* Reset (kept minimal & merged) */
-    :root { box-sizing: border-box; }
-    *,:before,:after { box-sizing: inherit; }
-    body { font-family: Arial, sans-serif; margin:0; padding:0; }
-
     /* Banner container */
     .banner-slider {
       position: relative;
@@ -135,45 +174,19 @@
       max-height: 500px;
       overflow: hidden;
     }
-
-    /* Each image */
     .banner-slider img {
       width: 100%;
       height: auto;
       display: none;
       object-fit: cover;
     }
-
-    /* Show first image by default */
     .banner-slider img.active {
       display: block;
       animation: fade 1.2s ease-in-out;
     }
-
-    /* Smooth fade effect */
     @keyframes fade {
       from { opacity: 0.4; }
       to { opacity: 1; }
-    }
-
-    /* Optional caption overlay */
-    .banner-caption {
-      position: absolute;
-      bottom: 20px;
-      left: 20px;
-      background: rgba(0, 0, 0, 0.5);
-      color: #fff;
-      padding: 10px 20px;
-      border-radius: 8px;
-      font-size: 1rem;
-    }
-
-    /* Responsive for smaller screens */
-    @media (max-width: 768px) {
-      .banner-caption {
-        font-size: 0.9rem;
-        padding: 6px 12px;
-      }
     }
   </style>
 </head>
@@ -187,19 +200,34 @@
         <h1>Saheli Care</h1>
       </div>
 
-      <nav>
-        <ul id="navList">
+      <nav aria-label="Main navigation">
+        <ul id="navList" class="">
           <li><a href="#home">Home</a></li>
           <li><a href="#products">Products</a></li>
           <li><a href="#about">About</a></li>
           <li><a href="#contact">Contact</a></li>
         </ul>
-      </nav>
 
-      <!-- Hamburger moved to the right (removed CTA 'Order Now') -->
-      <button class="hamburger" id="menuBtn" aria-label="Menu">☰</button>
+        <!-- Hamburger (right side) -->
+        <button class="hamburger" id="menuBtn" aria-label="Menu">☰</button>
+      </nav>
     </div>
   </header>
+
+  <!-- Mobile overlay + panel (inserted in DOM so JS can toggle) -->
+  <div id="mobileOverlay" class="mobile-overlay" aria-hidden="true"></div>
+
+  <aside id="mobilePanel" class="mobile-panel" aria-hidden="true" role="dialog" aria-label="Mobile menu">
+    <button class="close-panel" id="closePanelBtn" aria-label="Close menu">✕</button>
+    <nav class="panel-nav" aria-label="Mobile links">
+      <ul>
+        <li><a href="#home" class="panel-link">Home</a></li>
+        <li><a href="#products" class="panel-link">Products</a></li>
+        <li><a href="#about" class="panel-link">About</a></li>
+        <li><a href="#contact" class="panel-link">Contact</a></li>
+      </ul>
+    </nav>
+  </aside>
 
   <!-- Main -->
   <main class="container">
@@ -355,7 +383,7 @@
     </div>
   </div>
 
-  <!-- Quick-view modal (kept in case you use Quick view) -->
+  <!-- Quick-view modal -->
   <div id="quickModal" class="modal" aria-hidden="true">
     <div class="modal-card">
       <button class="modal-close" id="quickClose" aria-label="Close">✕</button>
@@ -376,13 +404,11 @@
 
       let currentProduct = { name: '', price: '' };
 
-      // open order modal with product info
       function openOrderModal(productName, price){
         currentProduct = { name: productName, price: price || '' };
         selectedProductEl.textContent = productName + (price ? (' — ' + price) : '');
         orderModal.classList.add('open');
         orderModal.setAttribute('aria-hidden','false');
-        // focus first input
         setTimeout(()=> document.getElementById('custName').focus(), 120);
       }
 
@@ -392,7 +418,6 @@
         orderForm.reset();
       }
 
-      // attach order buttons
       document.querySelectorAll('.order-btn').forEach(btn=>{
         btn.addEventListener('click', (e)=>{
           e.preventDefault();
@@ -402,7 +427,6 @@
         });
       });
 
-      // diwali button
       const diwaliBtn = document.getElementById('diwaliBtn');
       if(diwaliBtn){
         diwaliBtn.addEventListener('click', (e)=>{
@@ -413,35 +437,22 @@
         });
       }
 
-      // cancel/close handlers
       orderClose.addEventListener('click', closeOrderModal);
       orderCancel.addEventListener('click', closeOrderModal);
-
-      // close modal on overlay click
-      orderModal.addEventListener('click', (e)=>{
-        if(e.target === orderModal) closeOrderModal();
-      });
-
-      // ESC to close
+      orderModal.addEventListener('click', (e)=>{ if(e.target === orderModal) closeOrderModal(); });
       document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeOrderModal(); });
 
-      // form submit -> open whatsapp with formatted message
       orderForm.addEventListener('submit', (e)=>{
         e.preventDefault();
-
         const name = document.getElementById('custName').value.trim();
         const phone = document.getElementById('custPhone').value.trim();
         const address = document.getElementById('custAddress').value.trim();
         const pincode = document.getElementById('custPincode').value.trim();
         const qty = document.getElementById('custQty').value;
-
-        // basic validation
         if(!name || !phone || !address || !pincode){
           alert('Please fill all required fields (Name, Phone, Address, Pincode).');
           return;
         }
-
-        // build message
         const lines = [];
         lines.push('*Saheli Care — New Order*');
         lines.push('');
@@ -455,18 +466,13 @@
         lines.push('📮 Pincode: ' + pincode);
         lines.push('');
         lines.push('Kindly confirm availability and payment method.');
-
         const text = encodeURIComponent(lines.join('\n'));
         const waUrl = `https://wa.me/${whatsappNumber}?text=${text}`;
-
-        // open WhatsApp (new tab)
         window.open(waUrl, '_blank');
-
-        // reset & close modal
         closeOrderModal();
       });
 
-      // --- Quick-view modal (keep previous behavior) ---
+      // --- Quick-view modal logic ---
       const quickModal = document.getElementById('quickModal');
       const quickClose = document.getElementById('quickClose');
       const quickContent = document.getElementById('quickContent');
@@ -491,13 +497,52 @@
       quickModal.addEventListener('click', (e)=>{ if(e.target === quickModal) closeModal(); });
       document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') { closeModal(); } });
 
-      // mobile nav toggle (hamburger now on the right)
+      // --- Mobile right-panel menu logic ---
       const menuBtn = document.getElementById('menuBtn');
-      const navList = document.getElementById('navList');
-      menuBtn && menuBtn.addEventListener('click', ()=>{
-        const shown = navList.style.display === 'flex';
-        navList.style.display = shown ? 'none' : 'flex';
-        navList.style.flexDirection = 'column';
+      const mobilePanel = document.getElementById('mobilePanel');
+      const mobileOverlay = document.getElementById('mobileOverlay');
+      const closePanelBtn = document.getElementById('closePanelBtn');
+
+      function openMobilePanel(){
+        mobilePanel.classList.add('open');
+        mobilePanel.setAttribute('aria-hidden','false');
+        mobileOverlay.classList.add('show');
+        mobileOverlay.setAttribute('aria-hidden','false');
+        // lock body scroll
+        document.body.style.overflow = 'hidden';
+      }
+      function closeMobilePanel(){
+        mobilePanel.classList.remove('open');
+        mobilePanel.setAttribute('aria-hidden','true');
+        mobileOverlay.classList.remove('show');
+        mobileOverlay.setAttribute('aria-hidden','true');
+        document.body.style.overflow = '';
+      }
+
+      menuBtn && menuBtn.addEventListener('click', (e)=>{
+        e.preventDefault();
+        // Only use panel behaviour on small screens
+        if(window.matchMedia && window.matchMedia('(max-width:640px)').matches){
+          if(mobilePanel.classList.contains('open')) closeMobilePanel();
+          else openMobilePanel();
+        } else {
+          // fallback: toggle inline nav on larger screens
+          const navList = document.getElementById('navList');
+          const shown = navList.style.display === 'flex';
+          navList.style.display = shown ? 'none' : 'flex';
+        }
+      });
+
+      closePanelBtn && closePanelBtn.addEventListener('click', (e)=>{ e.preventDefault(); closeMobilePanel(); });
+
+      mobileOverlay && mobileOverlay.addEventListener('click', (e)=>{ closeMobilePanel(); });
+
+      // close panel on ESC
+      document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') { closeMobilePanel(); } });
+
+      // When a panel link is clicked, close panel (mobile)
+      document.querySelectorAll('.panel-link').forEach(link=>{
+        link.addEventListener('click', ()=>{ closeMobilePanel(); });
       });
 
       // contact form (existing behaviour) kept as-is (opens whatsapp)
