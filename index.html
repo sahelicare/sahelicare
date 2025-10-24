@@ -20,204 +20,166 @@
     body{margin:0;background:#f7f9fb;color:var(--dark);line-height:1.45;-webkit-font-smoothing:antialiased}
     .container{max-width:1100px;margin:0 auto;padding:0 18px}
 
-    /* Navbar */
-    header{background:linear-gradient(90deg,var(--accent),var(--accent-700));position:sticky;top:0;z-index:100;padding:8px 0;color:white}
-    .nav{display:flex;align-items:center;justify-content:space-between;gap:12px;position:relative}
-    .brand{display:flex;align-items:center;gap:10px}
-    .brand img{height:38px;width:38px;border-radius:10px;object-fit:cover;border:2px solid rgba(255,255,255,0.12)}
-    .brand h1{margin:0;font-size:17px;font-weight:700;color:white}
-    nav{display:flex;align-items:center;gap:14px;position:relative}
-    nav ul{display:flex;gap:14px;align-items:center;margin:0;padding:0;list-style:none}
-    nav a{color:white;text-decoration:none;font-weight:600;padding:6px 8px;border-radius:8px}
-    .hamburger {
-      background: transparent;
-      border: 0;
-      color: white;
-      font-size: 22px;
-      padding: 8px;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-    .hamburger:focus { outline:3px solid rgba(255,255,159,0.12); outline-offset:2px }
+/* ---------- NAVBAR ---------- */
+header{
+  background:linear-gradient(90deg,var(--accent),var(--accent-700));
+  position:sticky; top:0; z-index:100; padding:8px 0; color:white;
+}
+.header-inner{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  max-width:1100px;
+  margin:0 auto;
+  padding:0 18px;
+}
 
-    /* Right-side mobile panel */
-    @media (max-width: 640px) {
-      /* hide inline nav */
-      nav ul { display: none; }
+/* brand (left) */
+.brand{display:flex;align-items:center;gap:10px}
+.brand img{height:38px;width:38px;border-radius:10px;object-fit:cover;border:2px solid rgba(255,255,255,0.12)}
+.brand h1{margin:0;font-size:17px;font-weight:700;color:white}
 
-      /* make hamburger fixed at right inside header area */
-      .hamburger {
-        position: relative;
-        z-index: 105;
-      }
+/* desktop nav (center/right on larger screens) */
+nav.main-nav{display:flex;align-items:center;gap:14px}
+nav.main-nav ul{display:flex;gap:14px;align-items:center;margin:0;padding:0;list-style:none}
+nav.main-nav a{color:white;text-decoration:none;font-weight:600;padding:6px 8px;border-radius:8px}
 
-      /* overlay to dim background when panel open */
-      .mobile-overlay {
-        position: fixed;
-        inset: 0;
-        background: rgba(7,10,14,0.35);
-        display: none;
-        z-index: 110;
-      }
-      .mobile-overlay.show { display: block; }
+/* hamburger (always in header right area) */
+.hamburger {
+  background: transparent;
+  border: 0;
+  color: white;
+  font-size: 22px;
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.hamburger:focus { outline:3px solid rgba(255,255,255,0.16); outline-offset:2px }
 
-      /* panel */
-      .mobile-panel {
-        position: fixed;
-        top: 0;
-        right: 0;
-        height: 100vh;
-        width: 300px;
-        max-width: 92%;
-        background: #fff;
-        color: var(--dark);
-        box-shadow: -12px 0 30px rgba(12,18,24,0.18);
-        transform: translateX(100%);
-        transition: transform 280ms cubic-bezier(.2,.9,.2,1);
-        z-index: 115;
-        padding: 18px;
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-      }
-      .mobile-panel.open { transform: translateX(0); }
+/* Mobile overlay + panel (panel will slide in FROM LEFT) */
+.mobile-overlay {
+  position: fixed; inset:0; background: rgba(7,10,14,0.35);
+  display: none; z-index: 110;
+}
+.mobile-overlay.show { display:block; }
 
-      .mobile-panel .close-panel {
-        align-self: flex-end;
-        background: transparent;
-        border: 0;
-        font-size: 20px;
-        cursor: pointer;
-        color: var(--dark);
-      }
+/* panel anchored left (hidden by default) */
+.mobile-panel {
+  position: fixed;
+  top: 0; left: 0;
+  height: 100vh;
+  width: 300px; max-width: 92%;
+  background: #fff; color: var(--dark);
+  box-shadow: 12px 0 30px rgba(12,18,24,0.18);
+  transform: translateX(-100%);
+  transition: transform 280ms cubic-bezier(.2,.9,.2,1);
+  z-index: 115;
+  padding: 18px; display:flex; flex-direction:column; gap:12px;
+}
+.mobile-panel.open { transform: translateX(0); }
+.mobile-panel .close-panel { align-self:flex-end; background:transparent; border:0; font-size:20px; cursor:pointer; color:var(--dark); }
 
-      .mobile-panel ul { list-style:none;margin:10px 0 0 0;padding:0;display:flex;flex-direction:column;gap:6px; }
-      .mobile-panel a { color:var(--dark); text-decoration:none; padding:12px 10px; border-radius:8px; font-weight:700; display:block; }
-      .mobile-panel a:hover { background: rgba(15,23,36,0.04); }
+/* panel links */
+.mobile-panel ul{list-style:none;margin:8px 0 0 0;padding:0;display:flex;flex-direction:column;gap:6px}
+.mobile-panel a{color:var(--dark); text-decoration:none; padding:12px 8px; border-radius:8px; font-weight:700; display:block}
+.mobile-panel a:hover{ background: rgba(15,23,36,0.04) }
 
-      /* keep header layout simple: brand left, hamburger right */
-      .nav { align-items: center; }
-      .brand { order: 1; }
-    }
+/* ---------- HERO / CONTENT / CARDS (unchanged layout) ---------- */
+.hero{display:grid;grid-template-columns:1fr 420px;gap:18px;align-items:center;padding:16px 0}
+.banner-card img{width:100%;height:280px;object-fit:contain;border-radius:10px}
 
-    /* Hero */
-    .hero{display:grid;grid-template-columns:1fr 420px;gap:18px;align-items:center;padding:16px 0}
-    .banner-card img{width:100%;height:280px;object-fit:contain;border-radius:10px}
+.products-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:12px 0}
+.card{background:var(--card);padding:10px;border-radius:10px;box-shadow:0 8px 20px rgba(12,18,24,0.06);display:flex;flex-direction:column}
+.image-frame{height:140px;background:linear-gradient(180deg,#fff,#fff);border-radius:8px;display:flex;align-items:center;justify-content:center;padding:8px}
+.image-frame img{max-height:100%;max-width:100%;object-fit:contain;border-radius:6px;display:block}
+.card h3{margin:8px 0 6px;font-size:15px}
+.price{font-weight:700;margin-bottom:8px}
+.card .actions{margin-top:auto;display:flex;gap:8px}
+.btn{flex:1;padding:10px 10px;border-radius:10px;border:0;font-weight:600;cursor:pointer}
+.btn-outline{background:transparent;border:1px solid #eef2f6}
+.wa-btn{background:linear-gradient(90deg,var(--accent),var(--accent-700));color:white;border:0;padding:10px 12px;border-radius:10px;font-weight:700}
 
-    /* Products */
-    .products-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:12px 0}
-    .card{background:var(--card);padding:10px;border-radius:10px;box-shadow:0 8px 20px rgba(12,18,24,0.06);display:flex;flex-direction:column}
-    .image-frame{height:140px;background:linear-gradient(180deg,#fff,#fff);border-radius:8px;display:flex;align-items:center;justify-content:center;padding:8px}
-    .image-frame img{max-height:100%;max-width:100%;object-fit:contain;border-radius:6px;display:block}
-    .card h3{margin:8px 0 6px;font-size:15px}
-    .price{font-weight:700;margin-bottom:8px}
-    .card .actions{margin-top:auto;display:flex;gap:8px}
-    .btn{flex:1;padding:10px 10px;border-radius:10px;border:0;font-weight:600;cursor:pointer}
-    .btn-outline{background:transparent;border:1px solid #eef2f6}
-    .wa-btn{background:linear-gradient(90deg,var(--accent),var(--accent-700));color:white;border:0;padding:10px 12px;border-radius:10px;font-weight:700}
+/* shine */
+.btn, .wa-btn {
+  position:relative; overflow:hidden;
+}
+.btn::after, .wa-btn::after {
+  content:""; position:absolute; top:0; left:-120%; width:40%; height:100%;
+  background: linear-gradient(120deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.35) 50%, rgba(255,255,255,0.06) 100%);
+  transform:skewX(-20deg); transition:left .9s cubic-bezier(.2,.8,.2,1); pointer-events:none;
+}
+.btn:hover::after, .wa-btn:hover::after { left:120%; }
 
-    /* Shine effect */
-    .btn, .wa-btn {
-      position:relative; overflow:hidden;
-    }
-    .btn::after, .wa-btn::after {
-      content:"";
-      position:absolute; top:0; left:-120%;
-      width:40%; height:100%;
-      background: linear-gradient(120deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.35) 50%, rgba(255,255,255,0.06) 100%);
-      transform:skewX(-20deg);
-      transition: left 0.9s cubic-bezier(.2,.8,.2,1);
-      pointer-events:none;
-    }
-    .btn:hover::after, .wa-btn:hover::after { left:120%; }
+/* diwali, footer, modal styles kept */
+.diwali-card{display:flex;gap:12px;align-items:center;background:white;padding:12px;border-radius:12px;box-shadow:0 10px 30px rgba(12,18,24,0.06)}
+.diwali-image{flex:0 0 100px;height:100px;border-radius:10px;background:white;display:flex;align-items:center;justify-content:center;padding:8px}
+.diwali-image img{max-width:100%;max-height:100%;object-fit:contain;border-radius:8px}
+footer{margin-top:18px;padding:12px 0;color:var(--muted)}
 
-    /* Diwali card */
-    .diwali-card{display:flex;gap:12px;align-items:center;background:white;padding:12px;border-radius:12px;box-shadow:0 10px 30px rgba(12,18,24,0.06)}
-    .diwali-image{flex:0 0 100px;height:100px;border-radius:10px;background:white;display:flex;align-items:center;justify-content:center;padding:8px}
-    .diwali-image img{max-width:100%;max-height:100%;object-fit:contain;border-radius:8px}
+.modal { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; z-index: 2000; background: rgba(7,10,14,0.45); padding: 20px; }
+.modal.open { display: flex; }
+.modal-card { width: 100%; max-width: 520px; background: #fff; border-radius: 12px; padding: 16px; box-shadow: 0 20px 50px rgba(12,18,24,0.3); }
+.modal-card h3 { margin: 0 0 8px; font-size: 18px; }
+.form-row { display:flex; gap:8px; margin-bottom:10px; }
+.form-row .field { flex:1; display:flex; flex-direction:column; }
+.field label { font-size:13px; margin-bottom:6px; color:var(--muted); }
+.field input, .field textarea, .field select { padding:10px; border-radius:8px; border:1px solid #e8eef5; font-size:14px; width:100%; }
+.modal-actions { display:flex; gap:8px; margin-top:10px; }
+.modal-close { position:absolute; top:10px; right:12px; background:transparent;border:0;font-size:20px; cursor:pointer; color:#334155; }
 
-    /* Footer */
-    footer{margin-top:18px;padding:12px 0;color:var(--muted)}
+/* Banner */
+.banner-slider { position: relative; width: 100%; max-height: 500px; overflow: hidden; }
+.banner-slider img { width: 100%; height: auto; display: none; object-fit: cover; }
+.banner-slider img.active { display: block; animation: fade 1.2s ease-in-out; }
+@keyframes fade { from { opacity: 0.4; } to { opacity: 1; } }
 
-    /* Modal (order form) */
-    .modal { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; z-index: 2000; background: rgba(7,10,14,0.45); padding: 20px; }
-    .modal.open { display: flex; }
-    .modal-card { width: 100%; max-width: 520px; background: #fff; border-radius: 12px; padding: 16px; box-shadow: 0 20px 50px rgba(12,18,24,0.3); }
-    .modal-card h3 { margin: 0 0 8px; font-size: 18px; }
-    .form-row { display:flex; gap:8px; margin-bottom:10px; }
-    .form-row .field { flex:1; display:flex; flex-direction:column; }
-    .field label { font-size:13px; margin-bottom:6px; color:var(--muted); }
-    .field input, .field textarea, .field select {
-      padding:10px; border-radius:8px; border:1px solid #e8eef5; font-size:14px; width:100%;
-    }
-    .modal-actions { display:flex; gap:8px; margin-top:10px; }
-    .modal-close { position:absolute; top:10px; right:12px; background:transparent;border:0;font-size:20px; cursor:pointer; color:#334155; }
-
-    /* Responsive general */
-    @media(max-width:900px){
-      .hero{grid-template-columns:1fr}
-      .products-grid{grid-template-columns:repeat(2,1fr)}
-      .banner-card img{height:220px}
-    }
-    @media(max-width:640px){
-      .products-grid{grid-template-columns:1fr;gap:10px}
-      .card .actions{flex-direction:column}
-      .btn, .wa-btn, .btn-outline{width:100%}
-      .diwali-card{flex-direction:column;align-items:flex-start}
-      .image-frame{height:160px}
-      .modal-card{padding:12px}
-    }
-
-    a:focus, button:focus{outline:3px solid rgba(255,107,159,0.18);outline-offset:2px}
-
-    /* Banner container */
-    .banner-slider {
-      position: relative;
-      width: 100%;
-      max-height: 500px;
-      overflow: hidden;
-    }
-    .banner-slider img {
-      width: 100%;
-      height: auto;
-      display: none;
-      object-fit: cover;
-    }
-    .banner-slider img.active {
-      display: block;
-      animation: fade 1.2s ease-in-out;
-    }
-    @keyframes fade {
-      from { opacity: 0.4; }
-      to { opacity: 1; }
-    }
+/* Responsive behavior */
+@media (max-width: 900px){
+  .hero{grid-template-columns:1fr}
+  .products-grid{grid-template-columns:repeat(2,1fr)}
+  .banner-card img{height:220px}
+}
+@media (max-width: 640px){
+  /* hide desktop nav on phone */
+  nav.main-nav{display:none}
+  .products-grid{grid-template-columns:1fr;gap:10px}
+  .card .actions{flex-direction:column}
+  .btn, .wa-btn, .btn-outline{width:100%}
+  .diwali-card{flex-direction:column;align-items:flex-start}
+  .image-frame{height:160px}
+  .modal-card{padding:12px}
+}
+a:focus, button:focus{outline:3px solid rgba(255,107,159,0.18);outline-offset:2px}
   </style>
 </head>
 <body>
 
   <!-- Header -->
   <header>
-    <div class="container nav">
-      <div class="brand">
+    <div class="header-inner">
+      <!-- BRAND LEFT -->
+      <div class="brand" id="brand">
         <img src="232.png" alt="Saheli Care logo">
         <h1>Saheli Care</h1>
       </div>
 
-      <nav aria-label="Main navigation">
-        <ul id="navList" class="">
+      <!-- Desktop nav (hidden on small screens) -->
+      <nav class="main-nav" aria-label="Main navigation">
+        <ul id="navList">
           <li><a href="#home">Home</a></li>
           <li><a href="#products">Products</a></li>
           <li><a href="#about">About</a></li>
           <li><a href="#contact">Contact</a></li>
         </ul>
-
-        <!-- Hamburger (right side on mobile) -->
-        <button class="hamburger" id="menuBtn" aria-label="Menu">☰</button>
       </nav>
+
+      <!-- HAMBURGER RIGHT -->
+      <button class="hamburger" id="menuBtn" aria-label="Menu">☰</button>
     </div>
   </header>
 
-  <!-- Mobile overlay + right panel -->
+  <!-- Mobile overlay + left-side panel (slides in from left) -->
   <div id="mobileOverlay" class="mobile-overlay" aria-hidden="true"></div>
 
   <aside id="mobilePanel" class="mobile-panel" aria-hidden="true" role="dialog" aria-label="Mobile menu">
@@ -298,7 +260,6 @@
       </div>
     </section>
 
-    <!-- About / Contact sections unchanged -->
     <section id="about" style="margin-top:8px">
       <h2>About Saheli Care</h2>
       <p style="color:var(--muted)">Saheli Care exists to make menstrual care comfortable, dignified, and accessible. We design products that put your comfort first — backed by safety and quality testing.</p>
@@ -335,7 +296,7 @@
     </div>
   </footer>
 
-  <!-- ORDER MODAL (opens when clicking Order via WhatsApp) -->
+  <!-- ORDER MODAL (unchanged) -->
   <div id="orderModal" class="modal" aria-hidden="true">
     <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="orderTitle">
       <button class="modal-close" id="orderClose" aria-label="Close">✕</button>
@@ -404,7 +365,6 @@
       const orderCancel = document.getElementById('orderCancel');
       const orderForm = document.getElementById('orderForm');
       const selectedProductEl = document.getElementById('selectedProduct');
-
       let currentProduct = { name: '', price: '' };
 
       function openOrderModal(productName, price){
@@ -414,12 +374,7 @@
         orderModal.setAttribute('aria-hidden','false');
         setTimeout(()=> document.getElementById('custName').focus(), 120);
       }
-
-      function closeOrderModal(){
-        orderModal.classList.remove('open');
-        orderModal.setAttribute('aria-hidden','true');
-        orderForm.reset();
-      }
+      function closeOrderModal(){ orderModal.classList.remove('open'); orderModal.setAttribute('aria-hidden','true'); orderForm.reset(); }
 
       document.querySelectorAll('.order-btn').forEach(btn=>{
         btn.addEventListener('click', (e)=>{
@@ -475,7 +430,7 @@
         closeOrderModal();
       });
 
-      // --- Quick-view modal logic ---
+      // --- Quick-view modal ---
       const quickModal = document.getElementById('quickModal');
       const quickClose = document.getElementById('quickClose');
       const quickContent = document.getElementById('quickContent');
@@ -500,7 +455,7 @@
       quickModal.addEventListener('click', (e)=>{ if(e.target === quickModal) closeModal(); });
       document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') { closeModal(); } });
 
-      // --- Mobile right-panel menu logic ---
+      // --- MOBILE PANEL (slides FROM LEFT) ---
       const menuBtn = document.getElementById('menuBtn');
       const mobilePanel = document.getElementById('mobilePanel');
       const mobileOverlay = document.getElementById('mobileOverlay');
@@ -511,7 +466,6 @@
         mobilePanel.setAttribute('aria-hidden','false');
         mobileOverlay.classList.add('show');
         mobileOverlay.setAttribute('aria-hidden','false');
-        // lock body scroll
         document.body.style.overflow = 'hidden';
       }
       function closeMobilePanel(){
@@ -528,7 +482,7 @@
           if(mobilePanel.classList.contains('open')) closeMobilePanel();
           else openMobilePanel();
         } else {
-          // fallback: toggle inline nav on larger screens
+          // fallback: toggle desktop nav visibility
           const navList = document.getElementById('navList');
           const shown = navList.style.display === 'flex';
           navList.style.display = shown ? 'none' : 'flex';
@@ -536,18 +490,11 @@
       });
 
       closePanelBtn && closePanelBtn.addEventListener('click', (e)=>{ e.preventDefault(); closeMobilePanel(); });
-
       mobileOverlay && mobileOverlay.addEventListener('click', (e)=>{ closeMobilePanel(); });
-
-      // close panel on ESC
       document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') { closeMobilePanel(); } });
+      document.querySelectorAll('.panel-link').forEach(link=>{ link.addEventListener('click', ()=>{ closeMobilePanel(); }); });
 
-      // When a panel link is clicked, close panel (mobile)
-      document.querySelectorAll('.panel-link').forEach(link=>{
-        link.addEventListener('click', ()=>{ closeMobilePanel(); });
-      });
-
-      // contact form WhatsApp logic (unchanged)
+      // contact form -> WhatsApp (unchanged)
       const contactForm = document.getElementById('contactForm');
       if(contactForm){
         contactForm.addEventListener('submit', (e)=>{
@@ -566,18 +513,15 @@
 
     })();
 
-    // Simple auto-slide JavaScript
+    // Banner auto-slide
     let current = 0;
     const images = document.querySelectorAll(".banner-slider img");
     const total = images.length;
-
     function showNextImage() {
       images[current].classList.remove("active");
       current = (current + 1) % total;
       images[current].classList.add("active");
     }
-
-    // Change image every 4 seconds
     setInterval(showNextImage, 4000);
   </script>
 </body>
