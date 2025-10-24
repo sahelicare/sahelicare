@@ -21,7 +21,7 @@
     .container{max-width:1100px;margin:0 auto;padding:0 18px}
 
     /* Navbar */
-    header{background:linear-gradient(90deg,var(--accent),var(--accent-700));position:sticky;top:0;z-index:70;padding:8px 0;color:white}
+    header{background:linear-gradient(90deg,var(--accent),var(--accent-700));position:sticky;top:0;z-index:100;padding:8px 0;color:white}
     .nav{display:flex;align-items:center;justify-content:space-between;gap:12px;position:relative}
     .brand{display:flex;align-items:center;gap:10px}
     .brand img{height:38px;width:38px;border-radius:10px;object-fit:cover;border:2px solid rgba(255,255,255,0.12)}
@@ -40,9 +40,16 @@
     }
     .hamburger:focus { outline:3px solid rgba(255,255,159,0.12); outline-offset:2px }
 
-    /* Right-side mobile panel (hidden on desktop) */
+    /* Right-side mobile panel */
     @media (max-width: 640px) {
-      nav ul { display: none; } /* hide inline nav on small screens */
+      /* hide inline nav */
+      nav ul { display: none; }
+
+      /* make hamburger fixed at right inside header area */
+      .hamburger {
+        position: relative;
+        z-index: 105;
+      }
 
       /* overlay to dim background when panel open */
       .mobile-overlay {
@@ -50,7 +57,7 @@
         inset: 0;
         background: rgba(7,10,14,0.35);
         display: none;
-        z-index: 79;
+        z-index: 110;
       }
       .mobile-overlay.show { display: block; }
 
@@ -60,14 +67,14 @@
         top: 0;
         right: 0;
         height: 100vh;
-        width: 280px;
-        max-width: 90%;
+        width: 300px;
+        max-width: 92%;
         background: #fff;
         color: var(--dark);
         box-shadow: -12px 0 30px rgba(12,18,24,0.18);
         transform: translateX(100%);
-        transition: transform 300ms cubic-bezier(.2,.9,.2,1);
-        z-index: 80;
+        transition: transform 280ms cubic-bezier(.2,.9,.2,1);
+        z-index: 115;
         padding: 18px;
         display: flex;
         flex-direction: column;
@@ -75,7 +82,6 @@
       }
       .mobile-panel.open { transform: translateX(0); }
 
-      /* close button inside panel */
       .mobile-panel .close-panel {
         align-self: flex-end;
         background: transparent;
@@ -85,15 +91,12 @@
         color: var(--dark);
       }
 
-      .mobile-panel nav-links { display:block; }
-
-      .mobile-panel ul { list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px; }
-      .mobile-panel a { color:var(--dark); text-decoration:none; padding:10px 8px; border-radius:8px; font-weight:700; display:block; }
+      .mobile-panel ul { list-style:none;margin:10px 0 0 0;padding:0;display:flex;flex-direction:column;gap:6px; }
+      .mobile-panel a { color:var(--dark); text-decoration:none; padding:12px 10px; border-radius:8px; font-weight:700; display:block; }
       .mobile-panel a:hover { background: rgba(15,23,36,0.04); }
 
-      /* Keep header elements aligned: brand left, hamburger right */
+      /* keep header layout simple: brand left, hamburger right */
       .nav { align-items: center; }
-      .hamburger { order: 2; }
       .brand { order: 1; }
     }
 
@@ -208,13 +211,13 @@
           <li><a href="#contact">Contact</a></li>
         </ul>
 
-        <!-- Hamburger (right side) -->
+        <!-- Hamburger (right side on mobile) -->
         <button class="hamburger" id="menuBtn" aria-label="Menu">☰</button>
       </nav>
     </div>
   </header>
 
-  <!-- Mobile overlay + panel (inserted in DOM so JS can toggle) -->
+  <!-- Mobile overlay + right panel -->
   <div id="mobileOverlay" class="mobile-overlay" aria-hidden="true"></div>
 
   <aside id="mobilePanel" class="mobile-panel" aria-hidden="true" role="dialog" aria-label="Mobile menu">
@@ -521,7 +524,6 @@
 
       menuBtn && menuBtn.addEventListener('click', (e)=>{
         e.preventDefault();
-        // Only use panel behaviour on small screens
         if(window.matchMedia && window.matchMedia('(max-width:640px)').matches){
           if(mobilePanel.classList.contains('open')) closeMobilePanel();
           else openMobilePanel();
@@ -545,7 +547,7 @@
         link.addEventListener('click', ()=>{ closeMobilePanel(); });
       });
 
-      // contact form (existing behaviour) kept as-is (opens whatsapp)
+      // contact form WhatsApp logic (unchanged)
       const contactForm = document.getElementById('contactForm');
       if(contactForm){
         contactForm.addEventListener('submit', (e)=>{
