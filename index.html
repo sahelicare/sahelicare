@@ -31,13 +31,26 @@
 
     /* Navbar */
     header{background:linear-gradient(90deg,var(--accent),var(--accent-700));position:sticky;top:0;z-index:70;padding:8px 0;color:white}
-    .nav{display:flex;align-items:center;justify-content:space-between}
+    .nav{display:flex;align-items:center;justify-content:space-between;gap:12px}
     .brand{display:flex;align-items:center;gap:10px}
     .brand img{height:38px;width:38px;border-radius:10px;object-fit:cover;border:2px solid rgba(255,255,255,0.12)}
     .brand h1{margin:0;font-size:17px;font-weight:700;color:white}
+    nav{display:flex;align-items:center;gap:14px}
     nav ul{display:flex;gap:14px;align-items:center;margin:0;padding:0;list-style:none}
     nav a{color:white;text-decoration:none;font-weight:600;padding:6px 8px;border-radius:8px}
-    .cta{background:rgba(255,255,255,0.12);color:white;padding:8px 12px;border-radius:10px;font-weight:700;border:1px solid rgba(255,255,255,0.08)}
+    /* Removed .cta styling usage since CTA removed from header */
+
+    /* Hamburger button (moved to right) */
+    .hamburger {
+      background: transparent;
+      border: 0;
+      color: white;
+      font-size: 20px;
+      padding: 8px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .hamburger:focus { outline:3px solid rgba(255,255,159,0.12); outline-offset:2px }
 
     /* Hero */
     .hero{display:grid;grid-template-columns:1fr 420px;gap:18px;align-items:center;padding:16px 0}
@@ -56,10 +69,10 @@
     .wa-btn{background:linear-gradient(90deg,var(--accent),var(--accent-700));color:white;border:0;padding:10px 12px;border-radius:10px;font-weight:700}
 
     /* Shine effect (requested) */
-    .btn, .wa-btn, .cta {
+    .btn, .wa-btn {
       position:relative; overflow:hidden;
     }
-    .btn::after, .wa-btn::after, .cta::after {
+    .btn::after, .wa-btn::after {
       content:"";
       position:absolute; top:0; left:-120%;
       width:40%; height:100%;
@@ -68,7 +81,7 @@
       transition: left 0.9s cubic-bezier(.2,.8,.2,1);
       pointer-events:none;
     }
-    .btn:hover::after, .wa-btn:hover::after, .cta:hover::after { left:120%; }
+    .btn:hover::after, .wa-btn:hover::after { left:120%; }
 
     /* Diwali card */
     .diwali-card{display:flex;gap:12px;align-items:center;background:white;padding:12px;border-radius:12px;box-shadow:0 10px 30px rgba(12,18,24,0.06)}
@@ -109,15 +122,11 @@
     }
 
     a:focus, button:focus{outline:3px solid rgba(255,107,159,0.18);outline-offset:2px}
-     {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
 
-    body {
-      font-family: Arial, sans-serif;
-    }
+    /* Reset (kept minimal & merged) */
+    :root { box-sizing: border-box; }
+    *,:before,:after { box-sizing: inherit; }
+    body { font-family: Arial, sans-serif; margin:0; padding:0; }
 
     /* Banner container */
     .banner-slider {
@@ -170,8 +179,6 @@
 </head>
 <body>
 
- 
-
   <!-- Header -->
   <header>
     <div class="container nav">
@@ -179,8 +186,8 @@
         <img src="232.png" alt="Saheli Care logo">
         <h1>Saheli Care</h1>
       </div>
+
       <nav>
-        <button class="hamburger" id="menuBtn">☰</button>
         <ul id="navList">
           <li><a href="#home">Home</a></li>
           <li><a href="#products">Products</a></li>
@@ -188,7 +195,9 @@
           <li><a href="#contact">Contact</a></li>
         </ul>
       </nav>
-      <a class="cta" href="#contact">Order Now</a>
+
+      <!-- Hamburger moved to the right (removed CTA 'Order Now') -->
+      <button class="hamburger" id="menuBtn" aria-label="Menu">☰</button>
     </div>
   </header>
 
@@ -201,10 +210,9 @@
         <a class="wa-btn" href="#products" style="display:inline-block;margin-top:8px">Shop Pads</a>
       </div>
       <div class="banner-slider">
-    <img src="banner.png" alt="Saheli Care Banner 1" class="active">
-    <img src="new postrer.png" alt="Saheli Care Banner 2">
-   
-  </div>>
+        <img src="banner.png" alt="Saheli Care Banner 1" class="active">
+        <img src="new postrer.png" alt="Saheli Care Banner 2">
+      </div>
     </section>
 
     <section id="products">
@@ -483,7 +491,7 @@
       quickModal.addEventListener('click', (e)=>{ if(e.target === quickModal) closeModal(); });
       document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') { closeModal(); } });
 
-      // mobile nav toggle (unchanged)
+      // mobile nav toggle (hamburger now on the right)
       const menuBtn = document.getElementById('menuBtn');
       const navList = document.getElementById('navList');
       menuBtn && menuBtn.addEventListener('click', ()=>{
@@ -510,7 +518,7 @@
       }
 
     })();
-  
+
     // Simple auto-slide JavaScript
     let current = 0;
     const images = document.querySelectorAll(".banner-slider img");
