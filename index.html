@@ -164,6 +164,87 @@ footer{margin-top:18px;padding:12px 0;color:var(--muted)}
   .modal-card{padding:12px}
 }
 a:focus, button:focus{outline:3px solid rgba(255,107,159,0.18);outline-offset:2px}
+
+    /* ===== Footer Styles ===== */
+.site-footer {
+  background: linear-gradient(90deg, var(--accent), var(--accent-700));
+  color: #fff;
+  padding: 28px 0;
+  text-align: center;
+  margin-top: 40px;
+}
+
+.footer-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Brand */
+.footer-brand img {
+  height: 50px;
+  width: 50px;
+  border-radius: 10px;
+  object-fit: cover;
+  border: 2px solid rgba(255, 255, 255, 0.25);
+}
+.footer-brand h3 {
+  margin: 6px 0 0;
+  font-size: 18px;
+  font-weight: 700;
+}
+.footer-brand p {
+  margin: 4px 0 0;
+  font-size: 14px;
+  opacity: 0.85;
+}
+
+/* Social Icons */
+.footer-social {
+  display: flex;
+  gap: 18px;
+  margin-top: 8px;
+}
+.social-icon {
+  color: white;
+  font-size: 20px;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  border: 1.5px solid rgba(255,255,255,0.4);
+  text-decoration: none;
+}
+.social-icon:hover {
+  transform: translateY(-3px);
+  background: rgba(255,255,255,0.18);
+  border-color: white;
+}
+
+/* Glow by platform */
+.social-icon.fb:hover { box-shadow: 0 0 8px #1877f2; }
+.social-icon.ig:hover { box-shadow: 0 0 8px #e4405f; }
+.social-icon.yt:hover { box-shadow: 0 0 8px #ff0000; }
+
+.footer-copy {
+  font-size: 13px;
+  opacity: 0.8;
+  margin-top: 12px;
+}
+
+/* Responsive */
+@media (max-width:640px){
+  .footer-social { gap: 14px; }
+  .social-icon { width: 38px; height: 38px; font-size: 18px; }
+}
+
   </style>
 </head>
 <body>
@@ -451,6 +532,34 @@ a:focus, button:focus{outline:3px solid rgba(255,107,159,0.18);outline-offset:2p
       <div id="quickContent"></div>
     </div>
   </div>
+  <!-- ====== FOOTER SECTION ====== -->
+<footer class="site-footer">
+  <div class="footer-container">
+    <div class="footer-brand">
+      <img src="232.png" alt="Saheli Care Logo">
+      <h3>Saheli Care</h3>
+      <p>Comfort • Confidence • Care</p>
+    </div>
+
+    <div class="footer-social">
+      <a href="https://www.facebook.com/share/16AW65SRya/" target="_blank" aria-label="Facebook" class="social-icon fb">
+        <i class="fa-brands fa-facebook-f"></i>
+      </a>
+      <a href="https://www.instagram.com/nishusahelicare/" target="_blank" aria-label="Instagram" class="social-icon ig">
+        <i class="fa-brands fa-instagram"></i>
+      </a>
+      <a href="https://youtube.com/@nishusahelicare?si=c58iI0ZJMmriyoq5" target="_blank" aria-label="YouTube" class="social-icon yt">
+        <i class="fa-brands fa-youtube"></i>
+      </a>
+    </div>
+
+    <p class="footer-copy">© 2025 Saheli Care — All rights reserved</p>
+  </div>
+</footer>
+
+<!-- ✅ Correct Font Awesome CDN (must be below footer) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
 
   <script>
     (function(){
@@ -638,3 +747,4 @@ a:focus, button:focus{outline:3px solid rgba(255,107,159,0.18);outline-offset:2p
   </script>
 </body>
 </html>
+
