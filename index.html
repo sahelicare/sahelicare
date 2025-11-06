@@ -276,9 +276,33 @@ a:focus, button:focus{outline:3px solid rgba(255,107,159,0.18);outline-offset:2p
   }
 }
 --------------------------------------------------------------------------
-    @media (max-width: 640px){
-  .container{ padding-left: 8px; padding-right: 8px; }
+   /* ==== MOBILE: product images full width (edge-to-edge) ==== */
+@media (max-width: 640px) {
+  /* Card ke content ko padding mile, image ko full-bleed karne ke liye
+     image-frame par negative margins use kar rahe hain */
+  .card { padding: 12px; border-radius: 12px; }
+
+  .card .image-frame{
+    padding: 0;
+    height: auto;               /* fixed height hatao */
+    background: transparent;
+    /* card padding negate -> image left/right bilkul chipak jayegi */
+    margin: -12px -12px 10px;   /* top & sides pull-out, bottom = normal gap */
+    border-radius: 12px 12px 0 0;
+    overflow: hidden;           /* rounded corners clean rahen */
+    display: block;
+  }
+
+  .card .image-frame img{
+    display: block;
+    width: 100%;                /* full horizontal */
+    height: auto;               /* image apni natural height le */
+    max-height: none;           /* koi limit nahi */
+    object-fit: cover;          /* white bars nahi aayenge */
+    border-radius: 0;
+  }
 }
+
 
   </style>
 </head>
@@ -724,6 +748,7 @@ a:focus, button:focus{outline:3px solid rgba(255,107,159,0.18);outline-offset:2p
   </script>
 </body>
 </html>
+
 
 
 
