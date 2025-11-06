@@ -323,49 +323,49 @@ a:focus, button:focus{outline:3px solid rgba(255,107,159,0.18);outline-offset:2p
   }
 }
 ---------------------------
-    /* ===== Reviews ===== */
-.review-card{
+  /* ===== Professional Reviews UI ===== */
+.rv-card{
   background:#fff; padding:12px; border-radius:12px;
-  box-shadow:0 8px 24px rgba(11,16,23,0.06); display:flex; gap:12px; flex-wrap:wrap
+  box-shadow:0 8px 24px rgba(11,16,23,0.06);
+  display:flex; gap:14px; flex-wrap:wrap; margin-top:10px
 }
-.stars-row{display:flex; gap:4px; align-items:center}
-.stars-row input{display:none}
-.stars-row label{
+.rv-stars{display:flex; gap:4px; align-items:center; flex-direction:row-reverse}
+.rv-stars input{display:none}
+.rv-stars label{
   font-size:28px; line-height:1; cursor:pointer; color:#d1d5db;
   transition:transform .12s ease, color .12s ease; user-select:none
 }
-.stars-row label:hover, .stars-row label:hover ~ label{ transform:scale(1.05) }
-.stars-row input:checked ~ label{ color:#d1d5db }           /* reset */
-.stars-row input#star1:checked ~ label[for="star1"],
-.stars-row input#star2:checked ~ label[for="star2"],
-.stars-row input#star3:checked ~ label[for="star3"],
-.stars-row input#star4:checked ~ label[for="star4"],
-.stars-row input#star5:checked ~ label[for="star5"]{ color:#ff6b9f }
-
-/* Simple trick: reverse order so fill from left to right */
-.stars-row{flex-direction: row-reverse}
-.stars-row label:hover,
-.stars-row label:hover ~ label,
-.stars-row input:checked ~ label{ color:#ff6b9f }
-
-.review-fields{display:flex; flex:1; gap:8px; flex-direction:column; min-width:240px}
-.review-fields input, .review-fields textarea{
+.rv-stars label:hover, .rv-stars label:hover ~ label{ transform:scale(1.05) }
+.rv-stars input:checked ~ label{ color:#ff6b9f }
+.rv-fields{display:flex; flex:1; gap:10px; flex-direction:column; min-width:260px}
+.rv-fields input, .rv-fields textarea{
   padding:10px; border-radius:8px; border:1px solid #e8eef5; font-size:14px; width:100%
 }
+.rv-msg-row{position:relative}
+.rv-counter{
+  position:absolute; right:10px; bottom:8px; font-size:12px; color:#6b7280; background:#fff
+}
 
-.reviews-list{display:flex; flex-direction:column; gap:10px; margin-top:12px}
-.review-item{
+/* List */
+.rv-list{display:flex; flex-direction:column; gap:10px; margin-top:12px}
+.rv-item{
   background:#fff; padding:12px; border-radius:12px;
   box-shadow:0 8px 20px rgba(12,18,24,0.06)
 }
-.review-item .meta{display:flex; align-items:center; gap:8px; font-size:13px; color:#6b7280}
-.review-item .stars{font-size:16px; color:#ff6b9f}
-.review-item .msg{margin:6px 0 0; font-size:14px}
-@media (max-width:640px){
-  .review-card{padding:10px}
+.rv-item .rv-meta{display:flex; align-items:center; gap:8px; font-size:13px; color:#6b7280}
+.rv-item .rv-stars-show{font-size:16px; color:#ff6b9f}
+.rv-item .rv-msg{margin:6px 0 0; font-size:14px}
+
+/* Empty state */
+.rv-empty{
+  background:#fff; padding:12px; border-radius:12px; color:#6b7280;
+  border:1px dashed #e5e7eb; text-align:center
 }
 
-
+@media (max-width:640px){
+  .rv-card{padding:10px}
+}
+--
   </style>
 </head>
 <body>
@@ -519,31 +519,38 @@ a:focus, button:focus{outline:3px solid rgba(255,107,159,0.18);outline-offset:2p
           <button type="submit" class="btn" style="background:var(--accent);color:white;width:100%;padding:12px;border-radius:10px;font-size:15px">Send Order</button>
         </form>
 
-        <section id="reviews" class="container" style="margin-top:18px">
-  <h2 style="margin-bottom:8px; display:flex; align-items:center; gap:8px">
-    Customer Reviews
-    <span id="avgBadge" style="background:#ffe4ec;color:#b4235a;font-weight:700;padding:4px 8px;border-radius:999px;font-size:13px;display:none"></span>
-  </h2>
+       
+  <section id="reviews" class="container" style="margin-top:18px">
+  <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:space-between">
+    <h2 style="margin:0">Customer Reviews</h2>
+    <div id="rv-summary" style="display:flex;align-items:center;gap:10px">
+      <span id="rv-avg" style="display:none;background:#ffe4ec;color:#b4235a;font-weight:700;padding:6px 10px;border-radius:999px;font-size:13px"></span>
+      <span id="rv-count" style="color:#6b7280;font-size:13px"></span>
+    </div>
+  </div>
 
-  <!-- Review Form -->
-  <form id="reviewForm" class="review-card" aria-label="Write a review">
-    <div class="stars-row" role="radiogroup" aria-label="Rate">
-      <input type="radio" name="rating" id="star5" value="5"><label for="star5" title="5 stars">★</label>
-      <input type="radio" name="rating" id="star4" value="4"><label for="star4" title="4 stars">★</label>
-      <input type="radio" name="rating" id="star3" value="3"><label for="star3" title="3 stars">★</label>
-      <input type="radio" name="rating" id="star2" value="2"><label for="star2" title="2 stars">★</label>
-      <input type="radio" name="rating" id="star1" value="1"><label for="star1" title="1 star">★</label>
+  <!-- Review form -->
+  <form id="rv-form" class="rv-card" aria-label="Write a review">
+    <div class="rv-stars" role="radiogroup" aria-label="Rate product">
+      <input type="radio" name="rv_rating" id="rv_s5" value="5"><label for="rv_s5" title="Excellent">★</label>
+      <input type="radio" name="rv_rating" id="rv_s4" value="4"><label for="rv_s4" title="Good">★</label>
+      <input type="radio" name="rv_rating" id="rv_s3" value="3"><label for="rv_s3" title="Okay">★</label>
+      <input type="radio" name="rv_rating" id="rv_s2" value="2"><label for="rv_s2" title="Poor">★</label>
+      <input type="radio" name="rv_rating" id="rv_s1" value="1"><label for="rv_s1" title="Bad">★</label>
     </div>
 
-    <div class="review-fields">
-      <input id="revName" type="text" placeholder="Your name (optional)">
-      <textarea id="revMsg" rows="3" placeholder="Write your review..." required></textarea>
+    <div class="rv-fields">
+      <input id="rv-name" type="text" placeholder="Your name (optional)">
+      <div class="rv-msg-row">
+        <textarea id="rv-msg" rows="4" placeholder="Write your review..." maxlength="600" required></textarea>
+        <div class="rv-counter"><span id="rv-left">600</span> chars left</div>
+      </div>
       <button type="submit" class="wa-btn" style="align-self:flex-start">Submit Review</button>
     </div>
   </form>
 
-  <!-- List -->
-  <div id="reviewsList" class="reviews-list" aria-live="polite"></div>
+  <!-- Reviews list (newest first) -->
+  <div id="rv-list" class="rv-list" aria-live="polite"></div>
 </section>
 
 
@@ -836,91 +843,113 @@ a:focus, button:focus{outline:3px solid rgba(255,107,159,0.18);outline-offset:2p
     }
     setInterval(showNextImage, 4000);
     ---
-      <script>
+  <script>
 (function(){
-  const LS_KEY = 'saheliReviews_v1';
-  const form = document.getElementById('reviewForm');
-  const listEl = document.getElementById('reviewsList');
-  const avgBadge = document.getElementById('avgBadge');
+  const KEY = 'saheli_reviews_v2';  // localStorage key
+  const $ = sel => document.querySelector(sel);
+  const $$ = sel => document.querySelectorAll(sel);
 
-  // Load existing (local)
+  const form = $('#rv-form');
+  const listEl = $('#rv-list');
+  const avgEl = $('#rv-avg');
+  const countEl = $('#rv-count');
+  const nameEl = $('#rv-name');
+  const msgEl = $('#rv-msg');
+  const leftEl = $('#rv-left');
+
+  // Load from localStorage
   let reviews = [];
-  try{
-    reviews = JSON.parse(localStorage.getItem(LS_KEY) || '[]');
-  }catch(e){ reviews = []; }
+  try { reviews = JSON.parse(localStorage.getItem(KEY) || '[]'); } catch(e){ reviews = []; }
 
-  // Helpers
+  // Utils
   const clamp = n => Math.max(1, Math.min(5, n|0));
-  const escapeHTML = s => (s||'').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  const esc = s => (s||'').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+  const starsShow = n => `<span class="rv-stars-show" aria-label="${n} of 5">` + '★'.repeat(n) + '☆'.repeat(5-n) + `</span>`;
+  const nowISO = () => new Date().toISOString();
 
-  function starHTML(n){
-    const full = '★'.repeat(n);
-    const empty = '☆'.repeat(5-n);
-    return `<span class="stars" aria-label="${n} out of 5">${full}${empty}</span>`;
+  function calcAndRenderSummary(){
+    if(!reviews.length){
+      avgEl.style.display = 'none';
+      countEl.textContent = 'No reviews yet';
+      return;
+    }
+    const avg = reviews.reduce((a,r)=>a+r.rating,0)/reviews.length;
+    avgEl.style.display = 'inline-block';
+    avgEl.textContent = `⭐ ${avg.toFixed(1)} avg`;
+    countEl.textContent = `(${reviews.length} reviews)`;
   }
 
-  function render(){
-    // average
-    if(reviews.length){
-      const avg = (reviews.reduce((a,r)=>a+r.rating,0)/reviews.length);
-      avgBadge.style.display='inline-block';
-      avgBadge.textContent = `⭐ ${avg.toFixed(1)} (${reviews.length})`;
-    }else{
-      avgBadge.style.display='none';
+  function renderList(){
+    if(!reviews.length){
+      listEl.innerHTML = `<div class="rv-empty">Be the first to review!</div>`;
+      return;
     }
-    // list
     listEl.innerHTML = reviews.map(r => `
-      <div class="review-item">
-        <div class="meta">
-          ${starHTML(r.rating)}
+      <div class="rv-item">
+        <div class="rv-meta">
+          ${starsShow(r.rating)}
           <span>•</span>
-          <strong>${escapeHTML(r.name || 'Anonymous')}</strong>
+          <strong>${esc(r.name || 'Anonymous')}</strong>
           <span>• ${new Date(r.date).toLocaleDateString()}</span>
         </div>
-        <p class="msg">${escapeHTML(r.msg)}</p>
+        <p class="rv-msg">${esc(r.msg)}</p>
       </div>
-    `).join('') || `<div class="review-item"><p class="msg" style="margin:0">Be the first to review!</p></div>`;
+    `).join('');
   }
 
-  // Get selected rating from the five radios
-  function getRatingFromRadios(){
-    const nodes = ['star5','star4','star3','star2','star1'].map(id=>document.getElementById(id));
-    const checked = nodes.find(n => n.checked);
-    if(checked) return clamp(parseInt(checked.value,10));
-    return 0;
+  function getSelectedRating(){
+    const ids = ['rv_s5','rv_s4','rv_s3','rv_s2','rv_s1'];
+    const checked = ids.map(id=>document.getElementById(id)).find(n=>n && n.checked);
+    return checked ? clamp(parseInt(checked.value,10)) : 0;
   }
 
-  // Submit
+  // Character counter
+  msgEl.addEventListener('input', function(){
+    const max = parseInt(msgEl.getAttribute('maxlength'),10) || 600;
+    const left = max - msgEl.value.length;
+    leftEl.textContent = left;
+  });
+
+  // Submit handler
   form.addEventListener('submit', function(e){
     e.preventDefault();
-    const rating = getRatingFromRadios();
-    const msg = document.getElementById('revMsg').value.trim();
-    const name = document.getElementById('revName').value.trim();
+    const rating = getSelectedRating();
+    const msg = msgEl.value.trim();
+    const name = nameEl.value.trim();
 
-    if(!rating){ alert('Please select stars.'); return; }
-    if(!msg){ alert('Please write a short review.'); return; }
+    if(!rating){ alert('Please select star rating.'); return; }
+    if(msg.length < 6){ alert('Please write at least 6 characters.'); return; }
 
     const review = {
       rating,
-      msg: msg.slice(0, 800),
+      msg: msg.slice(0, 600),
       name: name.slice(0, 60),
-      date: Date.now()
+      date: nowISO()
     };
     reviews.unshift(review);
-    localStorage.setItem(LS_KEY, JSON.stringify(reviews));
+    localStorage.setItem(KEY, JSON.stringify(reviews));
+
+    // Reset form + stars
     form.reset();
-    // also clear selected stars
-    ['star1','star2','star3','star4','star5'].forEach(id => { const n=document.getElementById(id); if(n) n.checked=false; });
-    render();
+    ['rv_s1','rv_s2','rv_s3','rv_s4','rv_s5'].forEach(id => { const n = document.getElementById(id); if(n) n.checked = false; });
+    leftEl.textContent = (parseInt(msgEl.getAttribute('maxlength'),10) || 600);
+
+    // Re-render
+    calcAndRenderSummary();
+    renderList();
   });
 
-  render();
+  // Initial render
+  calcAndRenderSummary();
+  renderList();
 })();
 </script>
+
 ------------------
   </script>
 </body>
 </html>
+
 
 
 
