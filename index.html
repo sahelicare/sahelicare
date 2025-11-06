@@ -275,6 +275,53 @@ a:focus, button:focus{outline:3px solid rgba(255,107,159,0.18);outline-offset:2p
 @media (max-width: 640px){
   .container{ padding-left: 8px; padding-right: 8px; }
 }
+/* ✅ MOBILE: PRODUCT IMAGE FULL SCREEN WIDTH (NO GAP AT ALL) */
+@media (max-width: 640px) {
+
+  /* Container side padding remove */
+  .container {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  /* Product grid: single column full width */
+  .products-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Card full width & remove inner padding */
+  .card {
+    padding: 0 !important;
+    border-radius: 0 !important;
+    width: 100% !important;
+  }
+
+  /* Image frame full bleed */
+  .image-frame {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    height: auto !important;
+    background: transparent !important;
+    border-radius: 0 !important;
+  }
+
+  /* IMAGE = Full Width, Full Height, No White Sides */
+  .image-frame img {
+    width: 100% !important;
+    height: auto !important;
+    object-fit: cover !important;
+    border-radius: 0 !important;
+  }
+
+  /* Card content spacing restored below image */
+  .card h3,
+  .card .price,
+  .card p,
+  .card .actions {
+    padding: 10px 14px !important;
+  }
+}
 
 
   </style>
@@ -721,6 +768,7 @@ a:focus, button:focus{outline:3px solid rgba(255,107,159,0.18);outline-offset:2p
   </script>
 </body>
 </html>
+
 
 
 
