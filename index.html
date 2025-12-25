@@ -233,38 +233,40 @@
   pointer-events:none;
 }
 .help-card.shine:hover::after{ left:120%; }
-
-.banner-wrapper{
+/* ===== FIXED RESPONSIVE BANNER SLIDER ===== */
+.banner-wrap{
   width:100%;
   overflow:hidden;
   background:#f7f7f7;
+  border-radius:12px;
 }
 
-.banner-slider{
+.banner-track{
   display:flex;
-  transition:transform 0.7s ease-in-out;
+  transition:transform 0.8s ease-in-out;
 }
 
-.banner-slide{
+.banner-item{
   min-width:100%;
   display:flex;
   justify-content:center;
   align-items:center;
 }
 
-/* Image control */
-.banner-slide img{
+/* image auto adjust – NO CUT */
+.banner-item img{
   width:100%;
-  max-width:1200px;     /* PC par zyada badi nahi hogi */
+  max-width:1100px;
   height:auto;
-  max-height:420px;     /* Height control */
-  object-fit:contain;  /* CUT NAHI HOGI */
+  max-height:420px;
+  object-fit:contain;
+  display:block;
 }
 
-/* Mobile perfect view */
+/* mobile perfect height */
 @media (max-width:768px){
-  .banner-slide img{
-    max-height:260px;   /* Mobile ke liye perfect height */
+  .banner-item img{
+    max-height:260px;
   }
 }
 
@@ -317,22 +319,17 @@
         <a class="wa-btn" href="#products" style="display:inline-block;margin-top:8px">Shop Pads</a>
       </div>
 
-     <div class="slider-container">
-  <div class="slider">
-    <div class="slide">
-      <img src="offer1.png" alt="Banner 1">
+    <div class="banner-wrap">
+  <div class="banner-track">
+    <div class="banner-item">
+      <img src="offer1.png" alt="Offer Banner 1">
     </div>
-    <div class="slide">
-      <img src="offer11.png" alt="Banner 2">
+    <div class="banner-item">
+      <img src="offer11.png" alt="Offer Banner 2">
     </div>
-  </div>
-
-  <!-- Dots -->
-  <div class="dots">
-    <span class="dot active"></span>
-    <span class="dot"></span>
   </div>
 </div>
+
     </section>
 
     <!-- PRODUCTS -->
@@ -819,36 +816,26 @@
         });
       }
 
-      // Banner auto-slide
-      let current = 0;
-      const images = document.querySelectorAll(".banner-slider img");
-      const total = images.length;
-      function showNextImage(){
-        images[current].classList.remove("active");
-        current = (current + 1) % total;
-        images[current].classList.add("active");
-      }
-      setInterval(showNextImage, 4000);
-
-    })();
    
 
   </script>
 <script>
-let current = 0;
-const slider = document.querySelector(".banner-slider");
-const total = document.querySelectorAll(".banner-slide").length;
+let bannerIndex = 0;
+const bannerTrack = document.querySelector(".banner-track");
+const bannerTotal = document.querySelectorAll(".banner-item").length;
 
 setInterval(()=>{
-  current++;
-  if(current >= total){ current = 0; }
-  slider.style.transform = `translateX(-${current * 100}%)`;
-}, 3500);
+  bannerIndex++;
+  if(bannerIndex >= bannerTotal) bannerIndex = 0;
+  bannerTrack.style.transform = `translateX(-${bannerIndex * 100}%)`;
+}, 4000);
 </script>
+
 
   
 </body>
 </html>
+
 
 
 
