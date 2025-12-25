@@ -276,6 +276,47 @@
   z-index:9999;
 }
 
+/* ===== HAPPY NEW YEAR SALE TEXT ===== */
+#ny-sale{
+  position:fixed;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  pointer-events:none;
+  z-index:10000;
+}
+
+#ny-sale span{
+  font-size:clamp(26px, 5vw, 56px);
+  font-weight:900;
+  padding:18px 30px;
+  border-radius:18px;
+  color:#fff;
+  background:linear-gradient(90deg,#ff4f88,#ff9800,#ffeb3b);
+  box-shadow:0 0 30px rgba(255,79,136,.6);
+  animation:ny-pop 2.8s ease forwards;
+  text-align:center;
+}
+
+/* animation */
+@keyframes ny-pop{
+  0%{
+    transform:scale(0.3) rotate(-6deg);
+    opacity:0;
+  }
+  40%{
+    transform:scale(1.1) rotate(2deg);
+    opacity:1;
+  }
+  70%{
+    transform:scale(1) rotate(0);
+  }
+  100%{
+    transform:scale(0.85);
+    opacity:0;
+  }
+}
 
    
   </style>
@@ -283,6 +324,9 @@
 <body>
 <canvas id="skyshot-canvas"></canvas>
 
+<div id="ny-sale">
+  <span>🎉 Happy New Year Sale 🎉</span>
+</div>
 
 
 
@@ -935,12 +979,20 @@ setTimeout(()=>{
 },5000);
 </script>
 
+  <script>
+setTimeout(()=>{
+  const sale = document.getElementById("ny-sale");
+  if(sale) sale.remove();
+}, 3000);
+</script>
+
 
 
 
   
 </body>
 </html>
+
 
 
 
