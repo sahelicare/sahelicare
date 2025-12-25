@@ -269,42 +269,19 @@
     max-height:260px;
   }
 }
-/* ===== NEW YEAR FALL ANIMATION ===== */
-#newyear-container{
+#confetti-canvas{
   position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
+  inset:0;
   pointer-events:none;
-  overflow:hidden;
   z-index:9999;
-}
-
-.ny-item{
-  position:absolute;
-  top:-60px;
-  font-size:26px;
-  animation:ny-fall linear forwards;
-  opacity:0.95;
-}
-
-@keyframes ny-fall{
-  0%{
-    transform: translateY(0) rotate(0deg);
-    opacity:1;
-  }
-  100%{
-    transform: translateY(120vh) rotate(540deg);
-    opacity:0;
-  }
 }
 
    
   </style>
 </head>
 <body>
-<div id="newyear-container"></div>
+<canvas id="confetti-canvas"></canvas>
+
 
   <!-- Header -->
   <header>
@@ -863,37 +840,60 @@ setInterval(()=>{
 </script>
 
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-  const container = document.getElementById("newyear-container");
+const canvas = document.getElementById("confetti-canvas");
+const ctx = canvas.getContext("2d");
 
-  const items = [
-    "🎉","🎊","✨","💫","🥳","🎆","🎇","🍾","🥂","🎈"
-  ];
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
-  const totalItems = 45; // quantity
+const confettiCount = 220;
+const confetti = [];
+const colors = ["#ff4f88","#ffcc00","#00e5ff","#7cff00","#ff5722","#9c27b0"];
 
-  for(let i = 0; i < totalItems; i++){
-    const el = document.createElement("div");
-    el.className = "ny-item";
-    el.innerText = items[Math.floor(Math.random() * items.length)];
+for(let i=0;i<confettiCount;i++){
+  confetti.push({
+    x: canvas.width / 2,
+    y: canvas.height / 2,
+    r: Math.random() * 6 + 4,
+    color: colors[Math.floor(Math.random() * colors.length)],
+    speedX: (Math.random() - 0.5) * 14,
+    speedY: Math.random() * -18 - 6,
+    gravity: 0.6
+  });
+}
 
-    el.style.left = Math.random() * 100 + "vw";
-    el.style.fontSize = (18 + Math.random() * 22) + "px";
-    el.style.animationDuration = (5 + Math.random() * 4) + "s";
-    el.style.animationDelay = (Math.random() * 2) + "s";
-
-    container.appendChild(el);
-
-    setTimeout(() => {
-      el.remove();
-    }, 10000);
+let frame = 0;
+function animate(){
+  frame++;
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  confetti.forEach(c=>{
+    c.x += c.speedX;
+    c.y += c.speedY;
+    c.speedY += c.gravity;
+    ctx.beginPath();
+    ctx.fillStyle = c.color;
+    ctx.arc(c.x,c.y,c.r,0,Math.PI*2);
+    ctx.fill();
+  });
+  if(frame < 180){
+    requestAnimationFrame(animate);
+  }else{
+    ctx.clearRect(0,0,canvas.width,canvas.height);
   }
+}
+animate();
+
+window.addEventListener("resize", ()=>{
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
 });
 </script>
+
 
   
 </body>
 </html>
+
 
 
 
