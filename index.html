@@ -234,51 +234,38 @@
 }
 .help-card.shine:hover::after{ left:120%; }
 
-.slider-container{
+.banner-wrapper{
   width:100%;
-  max-width:1200px;
-  margin:auto;
   overflow:hidden;
-  position:relative;
+  background:#f7f7f7;
 }
 
-.slider{
+.banner-slider{
   display:flex;
-  transition:transform 0.8s ease-in-out;
+  transition:transform 0.7s ease-in-out;
 }
 
-.slide{
+.banner-slide{
   min-width:100%;
-  flex-shrink:0;
-}
-
-.slide img{
-  width:100%;
-  height:auto;
-  display:block;
-  object-fit:contain; /* banner cut nahi hoga */
-}
-
-/* Dots */
-.dots{
-  position:absolute;
-  bottom:10px;
-  left:50%;
-  transform:translateX(-50%);
   display:flex;
-  gap:8px;
+  justify-content:center;
+  align-items:center;
 }
 
-.dot{
-  width:10px;
-  height:10px;
-  background:#ccc;
-  border-radius:50%;
-  cursor:pointer;
+/* Image control */
+.banner-slide img{
+  width:100%;
+  max-width:1200px;     /* PC par zyada badi nahi hogi */
+  height:auto;
+  max-height:420px;     /* Height control */
+  object-fit:contain;  /* CUT NAHI HOGI */
 }
 
-.dot.active{
-  background:#ff4f88;
+/* Mobile perfect view */
+@media (max-width:768px){
+  .banner-slide img{
+    max-height:260px;   /* Mobile ke liye perfect height */
+  }
 }
 
    
@@ -847,36 +834,22 @@
    
 
   </script>
- <script>
-let index = 0;
-const slider = document.querySelector(".slider");
-const dots = document.querySelectorAll(".dot");
+<script>
+let current = 0;
+const slider = document.querySelector(".banner-slider");
+const total = document.querySelectorAll(".banner-slide").length;
 
-function showSlide(i){
-  slider.style.transform = `translateX(-${i * 100}%)`;
-  dots.forEach(dot => dot.classList.remove("active"));
-  dots[i].classList.add("active");
-}
-
-function autoSlide(){
-  index++;
-  if(index > 1){ index = 0; }
-  showSlide(index);
-}
-
-dots.forEach((dot, i)=>{
-  dot.addEventListener("click", ()=>{
-    index = i;
-    showSlide(index);
-  });
-});
-
-setInterval(autoSlide, 3500); // slide time
+setInterval(()=>{
+  current++;
+  if(current >= total){ current = 0; }
+  slider.style.transform = `translateX(-${current * 100}%)`;
+}, 3500);
 </script>
 
   
 </body>
 </html>
+
 
 
 
