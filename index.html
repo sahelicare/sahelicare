@@ -233,22 +233,52 @@
   pointer-events:none;
 }
 .help-card.shine:hover::after{ left:120%; }
-.banner-slider{
+
+.slider-container{
   width:100%;
+  max-width:1200px;
+  margin:auto;
   overflow:hidden;
-  border-radius:14px;
+  position:relative;
 }
 
-.slider-track{
+.slider{
   display:flex;
-  transition:transform 1s ease-in-out;
+  transition:transform 0.8s ease-in-out;
 }
 
-.slider-track img{
+.slide{
+  min-width:100%;
+  flex-shrink:0;
+}
+
+.slide img{
   width:100%;
   height:auto;
-  flex-shrink:0;
-  object-fit:contain; /* mobile par cut nahi hoti */
+  display:block;
+  object-fit:contain; /* banner cut nahi hoga */
+}
+
+/* Dots */
+.dots{
+  position:absolute;
+  bottom:10px;
+  left:50%;
+  transform:translateX(-50%);
+  display:flex;
+  gap:8px;
+}
+
+.dot{
+  width:10px;
+  height:10px;
+  background:#ccc;
+  border-radius:50%;
+  cursor:pointer;
+}
+
+.dot.active{
+  background:#ff4f88;
 }
 
    
@@ -300,12 +330,20 @@
         <a class="wa-btn" href="#products" style="display:inline-block;margin-top:8px">Shop Pads</a>
       </div>
 
-      <div class="banner-slider">
-  <div class="slider-track">
-    <img src="offer11.png" alt="Banner 1">
-    <img src="offer1.png" alt="Banner 2">
-    <img src="offer11.png" alt="Banner 2">
-   
+     <div class="slider-container">
+  <div class="slider">
+    <div class="slide">
+      <img src="offer1.png" alt="Banner 1">
+    </div>
+    <div class="slide">
+      <img src="offer11.png" alt="Banner 2">
+    </div>
+  </div>
+
+  <!-- Dots -->
+  <div class="dots">
+    <span class="dot active"></span>
+    <span class="dot"></span>
   </div>
 </div>
     </section>
@@ -809,19 +847,37 @@
    
 
   </script>
-  <script>
-const track = document.querySelector('.slider-track');
-const slides = document.querySelectorAll('.slider-track img');
+ <script>
 let index = 0;
+const slider = document.querySelector(".slider");
+const dots = document.querySelectorAll(".dot");
 
-setInterval(() => {
-  index = (index + 1) % slides.length;
-  track.style.transform = `translateX(-${index * 100}%)`;
-}, 3500);
+function showSlide(i){
+  slider.style.transform = `translateX(-${i * 100}%)`;
+  dots.forEach(dot => dot.classList.remove("active"));
+  dots[i].classList.add("active");
+}
+
+function autoSlide(){
+  index++;
+  if(index > 1){ index = 0; }
+  showSlide(index);
+}
+
+dots.forEach((dot, i)=>{
+  dot.addEventListener("click", ()=>{
+    index = i;
+    showSlide(index);
+  });
+});
+
+setInterval(autoSlide, 3500); // slide time
 </script>
+
   
 </body>
 </html>
+
 
 
 
