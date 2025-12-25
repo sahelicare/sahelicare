@@ -248,7 +248,7 @@
   width:100%;
   height:auto;
   flex-shrink:0;
-  object-fit:contain; /* mobile par image cut nahi hoti */
+  object-fit:contain; /* mobile par cut nahi hoti */
 }
 
    
@@ -814,15 +814,14 @@ const track = document.querySelector('.slider-track');
 const slides = document.querySelectorAll('.slider-track img');
 let index = 0;
 
-setInterval(()=>{
+setInterval(() => {
   index = (index + 1) % slides.length;
   track.style.transform = `translateX(-${index * 100}%)`;
-},3500);
+}, 3500);
 </script>
   
 </body>
 </html>
-
 
 
 
