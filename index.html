@@ -269,7 +269,7 @@
     max-height:260px;
   }
 }
-#firework-canvas{
+#skyshot-canvas{
   position:fixed;
   inset:0;
   pointer-events:none;
@@ -281,7 +281,8 @@
   </style>
 </head>
 <body>
-<canvas id="firework-canvas"></canvas>
+<canvas id="skyshot-canvas"></canvas>
+
 
 
 
@@ -842,7 +843,7 @@ setInterval(()=>{
 </script>
 
 <script>
-const canvas = document.getElementById("firework-canvas");
+const canvas = document.getElementById("skyshot-canvas");
 const ctx = canvas.getContext("2d");
 
 function resize(){
@@ -852,45 +853,45 @@ function resize(){
 resize();
 window.addEventListener("resize", resize);
 
-const colors = ["#ff1744","#ffea00","#00e5ff","#76ff03","#ff9100","#e040fb"];
+const shots = [];
+const particles = [];
 
-let fireworks = [];
-let particles = [];
+const colors = ["#ffffff","#ffeb3b","#ff4081","#40c4ff"];
 
-// 🔥 Sky shot (rocket)
-class Firework{
+class SkyShot{
   constructor(){
     this.x = Math.random() * canvas.width;
     this.y = canvas.height;
-    this.targetY = Math.random() * canvas.height * 0.4 + 80;
-    this.speed = Math.random() * 3 + 5;
+    this.targetY = Math.random() * canvas.height * 0.4 + 100;
+    this.speed = 12;
     this.color = colors[Math.floor(Math.random()*colors.length)];
   }
   update(){
     this.y -= this.speed;
+
+    // LINE TRAIL
+    ctx.beginPath();
+    ctx.moveTo(this.x, this.y + 20);
+    ctx.lineTo(this.x, this.y);
+    ctx.strokeStyle = this.color;
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
     if(this.y <= this.targetY){
       explode(this.x, this.y, this.color);
       return true;
     }
     return false;
   }
-  draw(){
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, 3, 0, Math.PI*2);
-    ctx.fillStyle = this.color;
-    ctx.fill();
-  }
 }
 
-// 💥 Blast particles
 function explode(x,y,color){
-  for(let i=0;i<60;i++){
+  for(let i=0;i<20;i++){
     particles.push({
       x,y,
       angle: Math.random()*Math.PI*2,
-      speed: Math.random()*6+2,
-      radius: Math.random()*2+1,
-      life: 60,
+      speed: Math.random()*3+1,
+      life: 25,
       color
     });
   }
@@ -899,48 +900,48 @@ function explode(x,y,color){
 function animate(){
   ctx.clearRect(0,0,canvas.width,canvas.height);
 
-  // launch fireworks
-  if(Math.random() < 0.05){
-    fireworks.push(new Firework());
+  if(Math.random() < 0.06){
+    shots.push(new SkyShot());
   }
 
-  fireworks = fireworks.filter(fw=>{
-    fw.draw();
-    return !fw.update();
-  });
+  for(let i=shots.length-1;i>=0;i--){
+    if(shots[i].update()){
+      shots.splice(i,1);
+    }
+  }
 
-  particles = particles.filter(p=>{
+  for(let i=particles.length-1;i>=0;i--){
+    const p = particles[i];
     p.life--;
     p.x += Math.cos(p.angle)*p.speed;
     p.y += Math.sin(p.angle)*p.speed;
-    p.speed *= 0.96;
 
     ctx.beginPath();
-    ctx.arc(p.x,p.y,p.radius,0,Math.PI*2);
+    ctx.arc(p.x,p.y,2,0,Math.PI*2);
     ctx.fillStyle = p.color;
     ctx.fill();
 
-    return p.life > 0;
-  });
+    if(p.life <= 0) particles.splice(i,1);
+  }
 
   requestAnimationFrame(animate);
 }
 
 animate();
 
-// ⏱️ Auto stop after 6 seconds
+/* Auto stop after 5 sec */
 setTimeout(()=>{
-  fireworks = [];
-  particles = [];
   ctx.clearRect(0,0,canvas.width,canvas.height);
-},6000);
+},5000);
 </script>
+
 
 
 
   
 </body>
 </html>
+
 
 
 
